@@ -1,6 +1,41 @@
 
 #include "main.h"
 
+struct ShaderProgramSource
+{
+    string VertexSource;
+    string FragmentSource;
+};
+
+
+static ShaderProgramSource ParseShader(const string& filepath){
+    ifstream stream(filepath);
+
+    enum class ShaderType{
+        NONE = -1, VERTEX = 0, FRAGMENT = 1
+    };
+    
+    string line;
+    stringstream ss[2];
+    ShaderType type = ShaderType::NONE;
+    while (getline(stream, line))
+    {
+        if (line.find("#shader") != string::npos){
+            if (line.find("vertex") != string::npos){
+                type = ShaderType::VERTEX;
+            }
+            else if (line.find("fragment") != string::npos){
+                type = ShaderType::FRAGMENT;
+            }
+        }
+        else if ((int)type != -1)
+        {
+            ss[(int)type] << line << "\n";
+        }        
+    }
+    return {ss[0].str(), ss[1].str()};
+
+}
 
 static unsigned int CompileShader(unsigned int type, const string& source){
     unsigned int id = glCreateShader(type);
@@ -39,12 +74,6 @@ static unsigned int CreateShader(const string& verterShader, const string& fragm
     glDeleteShader(fs);
 
     return program;
-}
-
-void readfile(const string &filepath, string &buffer){
-    ifstream fin(filepath.c_str());
-    getline(fin, buffer, char(-1));
-    fin.close();
 }
 
 int main(int argc, char const *argv[])
@@ -88,13 +117,9 @@ int main(int argc, char const *argv[])
     glEnableVertexAttribArray(0);
     glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(float), 0);
 
-    string vertexShader;
-    readfile("vertexShader.glsl", vertexShader);
+    ShaderProgramSource source = ParseShader("shaders/Basic.shader");
 
-    string fragmentShader;
-    readfile("fragmentShader.glsl", fragmentShader);
-
-    unsigned int shader = CreateShader(vertexShader, fragmentShader);
+    unsigned int shader = CreateShader(source.VertexSource, source.FragmentSource);
     glUseProgram(shader);
 
     /* Loop until the user closes the window */
