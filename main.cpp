@@ -89,10 +89,10 @@ int main(int argc, char const *argv[])
     glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(float), 0);
 
     string vertexShader;
-    readfile("vertexShader", vertexShader);
-    
+    readfile("vertexShader.glsl", vertexShader);
+
     string fragmentShader;
-    readfile("fragmentShader", fragmentShader);
+    readfile("fragmentShader.glsl", fragmentShader);
 
     unsigned int shader = CreateShader(vertexShader, fragmentShader);
     glUseProgram(shader);
