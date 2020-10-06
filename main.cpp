@@ -158,10 +158,7 @@ int main(int argc, char const *argv[])
         /* Render here */
         glClear(GL_COLOR_BUFFER_BIT);
 
-        //GLClearError();
-        //glDrawArrays(GL_TRIANGLES, 0, 3); GL_UNSIGNED_INT
         GLCall(glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr));
-        //if (GLLogCall()) break;
 
         /* Swap front and back buffers */
         glfwSwapBuffers(window);
