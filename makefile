@@ -2,7 +2,7 @@
  #    MAKEFILE
 ################################################################################
 
-OPENGL_LIBS = -lglut -lGL -lGLU -lglfw
+OPENGL_LIBS =  -lglfw -lGLEW -lGL
 
 LIBS = $(OPENGL_LIBS)
 

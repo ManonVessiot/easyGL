@@ -1,19 +1,25 @@
 #ifndef DEF_MAIN
 #define DEF_MAIN
 
+/*
 #include <iostream>
 
 #include <stdio.h>
 #include <stdlib.h>
 
 using namespace std;
+*/
 
 // opengl = specification
 // written in graphic drivers
 // legacy opengl != modern opengl (shader)
-#include <GL/freeglut.h>
-#include <GL/gl.h>
 
+// glew links opengl specification and the function in the graphic drivers
+
+#include <GL/glew.h> // needs to be included first
 #include <GLFW/glfw3.h>
+
+#include <iostream>
+using namespace std;
 
 #endif
