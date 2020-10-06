@@ -1,6 +1,24 @@
 
 #include "main.h"
 
+// macro for debug
+#define GLCall(x) GLClearError();\
+    x;\
+    if (GLLogCall(#x, __FILE__, __LINE__)) break;
+
+static void GLClearError(){
+    while (glGetError() != GL_NO_ERROR);    
+}
+
+static bool GLLogCall(const char* function, const char* file, int line){
+    bool gotError = false;
+    while (GLenum error = glGetError()){
+        gotError = true;
+        cout << "[OpenGL Error] (" << error << "): " << function << " " << file << ": " << line << endl;
+    }
+    return gotError;
+}
+
 struct ShaderProgramSource
 {
     string VertexSource;
@@ -140,8 +158,10 @@ int main(int argc, char const *argv[])
         /* Render here */
         glClear(GL_COLOR_BUFFER_BIT);
 
-        //glDrawArrays(GL_TRIANGLES, 0, 3);
-        glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
+        //GLClearError();
+        //glDrawArrays(GL_TRIANGLES, 0, 3); GL_UNSIGNED_INT
+        GLCall(glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr));
+        //if (GLLogCall()) break;
 
         /* Swap front and back buffers */
         glfwSwapBuffers(window);
