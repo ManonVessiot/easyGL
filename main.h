@@ -20,6 +20,7 @@ using namespace std;
 #include <GLFW/glfw3.h>
 
 #include <iostream>
+#include <fstream>
 using namespace std;
 
 #endif

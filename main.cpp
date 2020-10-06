@@ -1,6 +1,7 @@
 
 #include "main.h"
 
+
 static unsigned int CompileShader(unsigned int type, const string& source){
     unsigned int id = glCreateShader(type);
     const char* src = source.c_str();
@@ -40,6 +41,11 @@ static unsigned int CreateShader(const string& verterShader, const string& fragm
     return program;
 }
 
+void readfile(const string &filepath, string &buffer){
+    ifstream fin(filepath.c_str());
+    getline(fin, buffer, char(-1));
+    fin.close();
+}
 
 int main(int argc, char const *argv[])
 {
@@ -82,23 +88,12 @@ int main(int argc, char const *argv[])
     glEnableVertexAttribArray(0);
     glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(float), 0);
 
-    string vertexShader = 
-    "#version 330 core\n"
-    "\n"
-    "layout(location = 0) in vec4 position;"
-    "\n"
-    "void main(){\n"
-    "   gl_Position = position;\n"
-    "}\n";
+    string vertexShader;
+    readfile("vertexShader", vertexShader);
+    
+    string fragmentShader;
+    readfile("fragmentShader", fragmentShader);
 
-    string fragmentShader = 
-    "#version 330 core\n"
-    "\n"
-    "layout(location = 0) out vec4 color;"
-    "\n"
-    "void main(){\n"
-    "   color = vec4(1.0, 0.0, 0.0, 1.0);\n"
-    "}\n";
     unsigned int shader = CreateShader(vertexShader, fragmentShader);
     glUseProgram(shader);
 
@@ -118,7 +113,7 @@ int main(int argc, char const *argv[])
         glfwPollEvents();
     }
     glDeleteProgram(shader);
-    
+
     glfwTerminate();
     return 0;
 }

@@ -8,6 +8,7 @@
         "vector": "cpp",
         "random": "cpp",
         "mutex": "cpp",
-        "condition_variable": "cpp"
+        "condition_variable": "cpp",
+        "iosfwd": "cpp"
     }
 }
