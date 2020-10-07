@@ -11,11 +11,20 @@ INC = -I /usr/include/
 
 all: exc
 
+IndexBuffer.o: IndexBuffer.cpp IndexBuffer.h
+	$(CXX) -c IndexBuffer.cpp $(INC)
+
+VertexBuffer.o: VertexBuffer.cpp VertexBuffer.h
+	$(CXX) -c VertexBuffer.cpp $(INC)
+
+Renderer.o: Renderer.cpp Renderer.h
+	$(CXX) -c Renderer.cpp $(INC)
+
 main.o: main.cpp main.h
 	$(CXX) -c main.cpp $(INC)
 
-exc : main.o
-	$(CXX) -o exc main.o $(LIBS) 
+exc : main.o Renderer.o VertexBuffer.o IndexBuffer.o
+	$(CXX) -o exc main.o Renderer.o VertexBuffer.o IndexBuffer.o $(LIBS) 
 
 clean :
 	rm -f *.o exc
