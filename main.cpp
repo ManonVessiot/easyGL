@@ -94,6 +94,32 @@ static unsigned int CreateShader(const string& verterShader, const string& fragm
     return program;
 }
 
+static void updateColor(float& r, float& g, float& b, float& incrementR, float& incrementG, float& incrementB){    
+    if (r > 1.0f){
+        incrementR *= -1;
+    }
+    else if (r < 0.0f){
+        incrementR *= -1;
+    }
+
+    if (g > 1.0f){
+        incrementG *= -1;
+    }
+    else if (g < 0.0f){
+        incrementG *= -1;
+    }
+
+    if (b > 1.0f){
+        incrementB *= -1;
+    }
+    else if (b < 0.0f){
+        incrementB *= -1;
+    }
+    r += incrementR;
+    g += incrementG;
+    b += incrementB;
+}
+
 int main(int argc, char const *argv[])
 {
     GLFWwindow * window;
@@ -118,7 +144,7 @@ int main(int argc, char const *argv[])
     glfwMakeContextCurrent(window);
 
     //
-    glfwSwapInterval(1);
+    glfwSwapInterval(3);
 
     /* Init glew after making context current */
     if (glewInit() != GLEW_OK){
@@ -178,7 +204,11 @@ int main(int argc, char const *argv[])
 
 
     float r = 0.0f;
-    float increment = 0.05f;
+    float g = 0.0f;
+    float b = 0.0f;
+    float incrementR = 0.05f;
+    float incrementG = 0.02f;
+    float incrementB = 0.08f;
     /* Loop until the user closes the window */
     while (!glfwWindowShouldClose(window))
     {
@@ -186,21 +216,14 @@ int main(int argc, char const *argv[])
         GLCall(glClear(GL_COLOR_BUFFER_BIT));
 
         GLCall(glUseProgram(shader));
-        GLCall(glUniform4f(location, r, 0.3f, 0.8f, 1.0f));
+        updateColor(r, g, b, incrementR, incrementG, incrementB);
+        GLCall(glUniform4f(location, r, g, b, 1.0f));
 
         GLCall(glBindVertexArray(vao));
         GLCall(glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo));
         
         GLCall(glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr));
 
-        if (r > 1.0f){
-            increment = -0.05f;
-        }
-        else if (r < 0.0f){
-            increment =  0.05f;
-        }
-
-        r += increment;
 
         /* Swap front and back buffers */
         glfwSwapBuffers(window);
