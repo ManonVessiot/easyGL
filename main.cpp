@@ -4,7 +4,7 @@
 // macro for debug
 #define GLCall(x) GLClearError();\
     x;\
-    if (GLLogCall(#x, __FILE__, __LINE__)) break;
+    assert(!GLLogCall(#x, __FILE__, __LINE__))
 
 static void GLClearError(){
     while (glGetError() != GL_NO_ERROR);    
@@ -113,6 +113,9 @@ int main(int argc, char const *argv[])
     /* Make the window's context current */
     glfwMakeContextCurrent(window);
 
+    //
+    glfwSwapInterval(1);
+
     /* Init glew after making context current */
     if (glewInit() != GLEW_OK){
         cout << "Error!" << endl;
@@ -152,12 +155,22 @@ int main(int argc, char const *argv[])
     unsigned int shader = CreateShader(source.VertexSource, source.FragmentSource);
     glUseProgram(shader);
 
+
+
+    unsigned int location = glGetUniformLocation(shader, "u_ScreenSize");
+    assert((location != -1));
+
     /* Loop until the user closes the window */
     while (!glfwWindowShouldClose(window))
     {
         /* Render here */
         glClear(GL_COLOR_BUFFER_BIT);
 
+        int width;
+        int height;
+        glfwGetWindowSize(window, &width, &height);
+
+        glUniform2i(location, width, height);
         GLCall(glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr));
 
         /* Swap front and back buffers */

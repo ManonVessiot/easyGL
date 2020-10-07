@@ -25,4 +25,6 @@ using namespace std;
 #include <sstream>
 using namespace std;
 
+#include <assert.h> 
+
 #endif

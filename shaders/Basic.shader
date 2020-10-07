@@ -12,6 +12,10 @@ void main(){
 
 layout(location = 0) out vec4 color;
 
+uniform ivec2 u_ScreenSize;
+
 void main(){
-   color = vec4(0.0, 0.4, 1.0, 1.0);
+   float r = gl_FragCoord.x / u_ScreenSize.x;
+   float g = gl_FragCoord.y / u_ScreenSize.y;
+   color = vec4(r, g, 1.0, 1.0);
 }
