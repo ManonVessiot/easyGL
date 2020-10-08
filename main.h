@@ -1,14 +1,4 @@
-#ifndef DEF_MAIN
-#define DEF_MAIN
-
-/*
-#include <iostream>
-
-#include <stdio.h>
-#include <stdlib.h>
-
-using namespace std;
-*/
+#pragma once
 
 // opengl = specification
 // written in graphic drivers
@@ -23,8 +13,6 @@ using namespace std;
 #include <fstream>
 #include <string>
 #include <sstream>
+#include <assert.h>
+
 using namespace std;
-
-#include <assert.h> 
-
-#endif
