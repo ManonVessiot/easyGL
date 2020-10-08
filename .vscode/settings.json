@@ -21,6 +21,7 @@
         "chrono": "cpp",
         "algorithm": "cpp",
         "deque": "cpp",
-        "string": "cpp"
+        "string": "cpp",
+        "fstream": "cpp"
     }
 }
