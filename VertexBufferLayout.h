@@ -1,7 +1,8 @@
 #pragma once
 
+#include <GL/glew.h> 
+#include <assert.h> 
 #include <vector>
-#include "Renderer.h"
 using namespace std;
 
 struct VertexBufferElement

@@ -18,7 +18,7 @@ Shader.o: Shader.cpp Shader.h
 VertexBufferLayout.o: VertexBufferLayout.cpp VertexBufferLayout.h
 	$(CXX) -c VertexBufferLayout.cpp $(INC)
 
-VertexArray.o: VertexArray.cpp VertexArray.h
+VertexArray.o: VertexArray.cpp VertexArray.h Renderer.h
 	$(CXX) -c VertexArray.cpp $(INC)
 
 IndexBuffer.o: IndexBuffer.cpp IndexBuffer.h

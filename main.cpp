@@ -55,7 +55,6 @@ int main(int argc, char const *argv[])
     /* Make the window's context current */
     glfwMakeContextCurrent(window);
 
-    //
     glfwSwapInterval(3);
 
     /* Init glew after making context current */
@@ -67,11 +66,10 @@ int main(int argc, char const *argv[])
     
         float positions[] = {
             -0.5f, -0.5f,
-            0.5f, -0.5f,
-            0.5f,  0.5f,
+             0.5f, -0.5f,
+             0.5f,  0.5f,
             -0.5f,  0.5f
         };
-
         unsigned int indices[] = {
             0, 1, 2,
             2, 3, 0
@@ -85,8 +83,6 @@ int main(int argc, char const *argv[])
         layout.Push(GL_FLOAT, 2);
         va.AddBuffer(vb, layout);
 
-
-        /* index buffer object */
         IndexBuffer ib(indices, 6);
         
         Shader shader("shaders/Basic.shader");
@@ -100,6 +96,8 @@ int main(int argc, char const *argv[])
         ib.Unbind();
         shader.Unbind();
 
+        Renderer renderer;
+
         float r = 0.0f;
         float g = 0.0f;
         float b = 0.0f;
@@ -110,17 +108,14 @@ int main(int argc, char const *argv[])
         while (!glfwWindowShouldClose(window))
         {
             /* Render here */
-            GLCall(glClear(GL_COLOR_BUFFER_BIT));
+            renderer.Clear();
+
+            updateColor(r, g, b, incrementR, incrementG, incrementB);
 
             shader.Bind();
-            updateColor(r, g, b, incrementR, incrementG, incrementB);
             shader.SetUniform4f("u_Color", r, g, b, 1.0f);
 
-            va.Bind();
-            ib.Bind();
-
-            GLCall(glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr));
-
+            renderer.Draw(va, ib, shader);
 
             /* Swap front and back buffers */
             glfwSwapBuffers(window);

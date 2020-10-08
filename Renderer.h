@@ -5,6 +5,10 @@
 #include <iostream>
 using namespace std;
 
+#include "VertexArray.h"
+#include "IndexBuffer.h"
+#include "Shader.h"
+
 // macro for debug
 #define GLCall(x) GLClearError();\
     x;\
@@ -13,3 +17,15 @@ using namespace std;
 void GLClearError();
 
 bool GLLogCall(const char* function, const char* file, int line);
+
+class Renderer
+{
+private:
+    
+public:
+    Renderer();
+    ~Renderer();
+
+    void Clear() const;
+    void Draw(const VertexArray& va, const IndexBuffer& ib, const Shader& shader) const;
+};
