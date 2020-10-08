@@ -11,6 +11,11 @@ INC = -I /usr/include/
 
 all: exc
 
+stb_image.o: ./vendor/stb_image/stb_image.cpp ./vendor/stb_image/stb_image.h
+	$(CXX) -c ./vendor/stb_image/stb_image.cpp $(INC)
+
+Texture.o: Texture.cpp Texture.h
+	$(CXX) -c Texture.cpp $(INC)
 
 Shader.o: Shader.cpp Shader.h
 	$(CXX) -c Shader.cpp $(INC)
@@ -30,11 +35,11 @@ VertexBuffer.o: VertexBuffer.cpp VertexBuffer.h Renderer.h
 Renderer.o: Renderer.cpp Renderer.h
 	$(CXX) -c Renderer.cpp $(INC)
 
-main.o: main.cpp main.h Renderer.h VertexBuffer.h IndexBuffer.h
+main.o: main.cpp main.h Renderer.h VertexBuffer.h IndexBuffer.h 
 	$(CXX) -c main.cpp $(INC)
 
-exc : main.o Renderer.o VertexBuffer.o IndexBuffer.o VertexArray.o VertexBufferLayout.o Shader.o
-	$(CXX) -o exc main.o Renderer.o VertexBuffer.o IndexBuffer.o VertexArray.o VertexBufferLayout.o Shader.o $(LIBS) 
+exc : main.o Renderer.o VertexBuffer.o IndexBuffer.o VertexArray.o VertexBufferLayout.o Shader.o Texture.o stb_image.o 
+	$(CXX) -o exc main.o Renderer.o VertexBuffer.o IndexBuffer.o VertexArray.o VertexBufferLayout.o Shader.o Texture.o stb_image.o $(LIBS) 
 
 clean :
 	rm -f *.o exc
