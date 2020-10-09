@@ -76,9 +76,9 @@ int main(int argc, char const *argv[])
             2, 3, 0
         };
 
-        GLCall(glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA));
         GLCall(glEnable(GL_BLEND));
-
+        GLCall(glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA));
+        
         VertexArray va;
         /* buffer for data */        
         VertexBuffer vb(positions, 4 * 4 * sizeof(float));
