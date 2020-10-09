@@ -1,5 +1,16 @@
+// opengl = specification
+// written in graphic drivers
+// legacy opengl != modern opengl (shader)
 
-#include "main.h"
+// glew links opengl specification and the function in the graphic drivers
+
+#include <GL/glew.h> // needs to be included first
+#include <GLFW/glfw3.h>
+
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+
+
 #include "Renderer.h"
 #include "VertexBuffer.h"
 #include "IndexBuffer.h"
@@ -47,7 +58,10 @@ int main(int argc, char const *argv[])
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
     /* Create a windowed mode window and its OpenGL context */
-    window = glfwCreateWindow(700, 700, "Hello World", NULL, NULL);
+    int height = 960;
+    int width = 540;
+    // glfwGetWindowSize(&width, &height);
+    window = glfwCreateWindow(height, width, "Hello World", NULL, NULL);
     if (!window){
         glfwTerminate();
         return -1;
@@ -60,9 +74,9 @@ int main(int argc, char const *argv[])
 
     /* Init glew after making context current */
     if (glewInit() != GLEW_OK){
-        cout << "Error!" << endl;
+        std::cout << "Error!" << std::endl;
     }
-    cout << glGetString(GL_VERSION) << endl;
+    std::cout << glGetString(GL_VERSION) << std::endl;
     {   // use {} to "contains" our object and make sure, they are destroyed before glfwTerminate();
     
         float positions[] = {
@@ -89,11 +103,20 @@ int main(int argc, char const *argv[])
         va.AddBuffer(vb, layout);
 
         IndexBuffer ib(indices, 6);
+
         
         Shader shader("shaders/Basic.shader");
         shader.Bind();
 
         shader.SetUniform4f("u_Color", 0.2f, 0.3f, 0.8f, 1.0f);
+
+        // projection matrix
+        float miniSize = std::min(width, height);
+        float borderLimit = 0.66f;
+        float verticalLimit = (width / miniSize) * borderLimit;
+        float horizontalLimit = (height / miniSize) * borderLimit;
+        glm::mat4 proj = glm::ortho(-horizontalLimit, horizontalLimit, -verticalLimit, verticalLimit, -1.0f, 1.0f);
+        shader.SetUniformMat4f("u_MVP", proj);
 
         Texture texture("textures/zelda.png");
         texture.Bind();

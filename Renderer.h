@@ -3,7 +3,6 @@
 #include <GL/glew.h> 
 #include <assert.h> 
 #include <iostream>
-using namespace std;
 
 #include "VertexArray.h"
 #include "IndexBuffer.h"

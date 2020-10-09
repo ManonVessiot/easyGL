@@ -3,40 +3,44 @@
 #include <unordered_map>
 
 #include <string>
-using namespace std;
+
+#include <glm/glm.hpp>
 
 
 struct ShaderProgramSource
 {
-    string VertexSource;
-    string FragmentSource;
+    std::string VertexSource;
+    std::string FragmentSource;
 };
 
 class Shader
 {
 private:
-    string m_FilePath;
+    std::string m_FilePath;
     unsigned int m_RendererID;
     // cahcing for uniforms
-    unordered_map<string, int> m_UniformLocationCache;
+    std::unordered_map<std::string, int> m_UniformLocationCache;
 public:
-    Shader(const string& filepath);
+    Shader(const std::string& filepath);
     ~Shader();
 
     void Bind() const;
     void Unbind() const;
 
     // Set uniforms
-    void SetUniform1i(const string& name, int v0);
+    void SetUniform1i(const std::string& name, int v0);
 
-    void SetUniform1f(const string& name, float v0);
-    void SetUniform2f(const string& name, float v0, float v1);
-    void SetUniform3f(const string& name, float v0, float v1, float v2);
-    void SetUniform4f(const string& name, float v0, float v1, float v2, float v3);
+    void SetUniform1f(const std::string& name, float v0);
+    void SetUniform2f(const std::string& name, float v0, float v1);
+    void SetUniform3f(const std::string& name, float v0, float v1, float v2);
+    void SetUniform4f(const std::string& name, float v0, float v1, float v2, float v3);
+
+    void SetUniformMat4f(const std::string& name, const glm::mat4 matrix);
+    
 
 private:
-    ShaderProgramSource ParseShader(const string& filepath);
-    unsigned int CompileShader(unsigned int type, const string& source);
-    unsigned int CreateShader(const string& verterShader, const string& fragmentShader);
-    int GetUniformLocation(const string& name);
+    ShaderProgramSource ParseShader(const std::string& filepath);
+    unsigned int CompileShader(unsigned int type, const std::string& source);
+    unsigned int CreateShader(const std::string& verterShader, const std::string& fragmentShader);
+    int GetUniformLocation(const std::string& name);
 };

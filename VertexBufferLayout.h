@@ -3,7 +3,6 @@
 #include <GL/glew.h> 
 #include <assert.h> 
 #include <vector>
-using namespace std;
 
 struct VertexBufferElement
 {
@@ -27,7 +26,7 @@ struct VertexBufferElement
 class VertexBufferLayout
 {
 private:
-    vector<VertexBufferElement> m_Element;
+    std::vector<VertexBufferElement> m_Element;
     unsigned int m_Stride;
 
     void Push_float(unsigned int count){
@@ -59,6 +58,6 @@ public:
         return;
     }
 
-    inline const vector<VertexBufferElement> GetElements() const { return m_Element; }
+    inline const std::vector<VertexBufferElement> GetElements() const { return m_Element; }
     inline unsigned int GetStride() const { return m_Stride; }
 };
