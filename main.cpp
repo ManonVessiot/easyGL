@@ -58,14 +58,15 @@ int main(int argc, char const *argv[])
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
     /* Create a windowed mode window and its OpenGL context */
-    int height = 960;
-    int width = 540;
+    int height = 540;
+    int width = 960;
     // glfwGetWindowSize(&width, &height);
-    window = glfwCreateWindow(height, width, "Hello World", NULL, NULL);
+    window = glfwCreateWindow(width, height, "Hello World", NULL, NULL);
     if (!window){
         glfwTerminate();
         return -1;
     }
+    glfwGetWindowSize(window, &width, &height);
 
     /* Make the window's context current */
     glfwMakeContextCurrent(window);
@@ -110,13 +111,23 @@ int main(int argc, char const *argv[])
 
         shader.SetUniform4f("u_Color", 0.2f, 0.3f, 0.8f, 1.0f);
 
-        // projection matrix
+        // MVP matrix
+        glm::mat4 proj = glm::mat4(1.0f);
+        glm::mat4 view = glm::mat4(1.0f);
+        glm::mat4 model = glm::mat4(1.0f);
+        
         float miniSize = std::min(width, height);
         float borderLimit = 0.66f;
-        float verticalLimit = (width / miniSize) * borderLimit;
-        float horizontalLimit = (height / miniSize) * borderLimit;
-        glm::mat4 proj = glm::ortho(-horizontalLimit, horizontalLimit, -verticalLimit, verticalLimit, -1.0f, 1.0f);
-        shader.SetUniformMat4f("u_MVP", proj);
+        float verticalLimit = (height / miniSize) * borderLimit;
+        float horizontalLimit = (width / miniSize) * borderLimit;
+        proj = glm::ortho(-horizontalLimit, horizontalLimit, -verticalLimit, verticalLimit, -1.0f, 1.0f);
+
+        view = glm::translate(view, glm::vec3(-0.5f, 0.2f, 0.0f));
+        
+        model = glm::rotate(model, glm::radians(45.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+
+        glm::mat4 mvp = proj * view * model;
+        shader.SetUniformMat4f("u_MVP", mvp);
 
         Texture texture("textures/zelda.png");
         texture.Bind();
@@ -147,6 +158,11 @@ int main(int argc, char const *argv[])
             shader.Bind();
             shader.SetUniform4f("u_Color", r, g, b, 1.0f);
 
+            view = glm::translate(view, glm::vec3(0.005f, -0.002f, 0.0f));
+
+            mvp = proj * view * model;
+            shader.SetUniformMat4f("u_MVP", mvp);
+            
             renderer.Draw(va, ib, shader);
 
             /* Swap front and back buffers */
