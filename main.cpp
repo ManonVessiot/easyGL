@@ -115,6 +115,7 @@ int main(int argc, char const *argv[])
         glm::mat4 proj = glm::mat4(1.0f);
         glm::mat4 view = glm::mat4(1.0f);
         glm::mat4 model = glm::mat4(1.0f);
+        glm::mat4 model2 = glm::mat4(1.0f);
         
         float miniSize = std::min(width, height);
         float borderLimit = 0.66f;
@@ -124,7 +125,9 @@ int main(int argc, char const *argv[])
 
         view = glm::translate(view, glm::vec3(-0.5f, 0.2f, 0.0f));
         
-        model = glm::rotate(model, glm::radians(45.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+        model = glm::translate(model, glm::vec3(-0.5f, 0.0f, 0.0f));
+        model2 = glm::translate(model2, glm::vec3(0.5f, 0.0f, 0.0f));
+        model2 = glm::rotate(model2, glm::radians(180.0f), glm::vec3(0.0f, 1.0f, 0.0f));
 
         glm::mat4 mvp = proj * view * model;
         shader.SetUniformMat4f("u_MVP", mvp);
@@ -156,13 +159,20 @@ int main(int argc, char const *argv[])
             updateColor(r, g, b, incrementR, incrementG, incrementB);
 
             shader.Bind();
-            shader.SetUniform4f("u_Color", r, g, b, 1.0f);
-
+            
+            // move camera
             view = glm::translate(view, glm::vec3(0.005f, -0.002f, 0.0f));
 
+            // first object
+            shader.SetUniform4f("u_Color", r, g, b, 1.0f);
             mvp = proj * view * model;
-            shader.SetUniformMat4f("u_MVP", mvp);
+            shader.SetUniformMat4f("u_MVP", mvp);            
+            renderer.Draw(va, ib, shader);
             
+            // second object
+            shader.SetUniform4f("u_Color", 1, 1, 1, 1.0f);
+            mvp = proj * view * model2;
+            shader.SetUniformMat4f("u_MVP", mvp);            
             renderer.Draw(va, ib, shader);
 
             /* Swap front and back buffers */
