@@ -43,12 +43,12 @@ static void updateColor(float& r, float& g, float& b, float& incrementR, float& 
     g += incrementG;
     b += incrementB;
 }
-
+/*
 int main(int argc, char const *argv[])
 {
     GLFWwindow * window;
 
-    /* Initialize the library */
+    // Initialize the library
     if (!glfwInit()){
         return -1;
     }
@@ -57,7 +57,7 @@ int main(int argc, char const *argv[])
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
-    /* Create a windowed mode window and its OpenGL context */
+    // Create a windowed mode window and its OpenGL context
     int height = 540;
     int width = 960;
     // glfwGetWindowSize(&width, &height);
@@ -68,12 +68,12 @@ int main(int argc, char const *argv[])
     }
     glfwGetWindowSize(window, &width, &height);
 
-    /* Make the window's context current */
+    // Make the window's context current
     glfwMakeContextCurrent(window);
 
     glfwSwapInterval(3);
 
-    /* Init glew after making context current */
+    // Init glew after making context current 
     if (glewInit() != GLEW_OK){
         std::cout << "Error!" << std::endl;
     }
@@ -95,7 +95,7 @@ int main(int argc, char const *argv[])
         GLCall(glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA));
         
         VertexArray va;
-        /* buffer for data */        
+        // buffer for data       
         VertexBuffer vb(positions, 4 * 4 * sizeof(float));
 
         VertexBufferLayout layout;
@@ -150,10 +150,10 @@ int main(int argc, char const *argv[])
         float incrementR = 0.02f;
         float incrementG = 0.01f;
         float incrementB = 0.03f;
-        /* Loop until the user closes the window */
+        // Loop until the user closes the window
         while (!glfwWindowShouldClose(window))
         {
-            /* Render here */
+            // Render here
             renderer.Clear();
 
             updateColor(r, g, b, incrementR, incrementG, incrementB);
@@ -175,10 +175,90 @@ int main(int argc, char const *argv[])
             shader.SetUniformMat4f("u_MVP", mvp);            
             renderer.Draw(va, ib, shader);
 
-            /* Swap front and back buffers */
+            // Swap front and back buffers
             glfwSwapBuffers(window);
 
-            /* Poll for and process events */
+            // Poll for and process events
+            glfwPollEvents();
+        }
+    }
+    glfwTerminate();
+    return 0;
+}
+*/
+
+#include "tests/TestClearColor.h"
+
+int main(int argc, char const *argv[])
+{
+    GLFWwindow * window;
+
+    // Initialize the library
+    if (!glfwInit()){
+        return -1;
+    }
+
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+
+    // Create a windowed mode window and its OpenGL context
+    int height = 540;
+    int width = 960;
+    // glfwGetWindowSize(&width, &height);
+    window = glfwCreateWindow(width, height, "Hello World", NULL, NULL);
+    if (!window){
+        glfwTerminate();
+        return -1;
+    }
+
+    // Make the window's context current
+    glfwMakeContextCurrent(window);
+
+    glfwSwapInterval(3);
+
+    // Init glew after making context current
+    if (glewInit() != GLEW_OK){
+        std::cout << "Error!" << std::endl;
+    }
+    std::cout << glGetString(GL_VERSION) << std::endl;
+    {   // use {} to "contains" our object and make sure, they are destroyed before glfwTerminate();
+
+        GLCall(glEnable(GL_BLEND));
+        GLCall(glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA));
+        
+        Renderer renderer;
+
+        tests::TestClearColor test;
+        switch (argc)
+        {
+        case 2:
+            test = tests::TestClearColor(atof(argv[1]));
+            break;
+        case 3:
+            test = tests::TestClearColor(atof(argv[1]), atof(argv[2]));
+            break;
+        case 4:
+            test = tests::TestClearColor(atof(argv[1]), atof(argv[2]), atof(argv[3]));
+            break;
+        case 5:
+            test = tests::TestClearColor(atof(argv[1]), atof(argv[2]), atof(argv[3]), atof(argv[4]));
+            break;
+        default:
+            test = tests::TestClearColor();
+            break;
+        }
+        
+        // Loop until the user closes the window
+        while (!glfwWindowShouldClose(window))
+        {
+            // Render here
+            renderer.Clear();
+
+            test.OnUpdate(0.0f);
+            test.OnRender();
+
+            glfwSwapBuffers(window);
             glfwPollEvents();
         }
     }

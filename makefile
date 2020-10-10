@@ -11,6 +11,14 @@ INC = -I /usr/include/
 
 all: exc
 
+
+TestClearColor.o: ./tests/TestClearColor.cpp ./tests/TestClearColor.h ./tests/Test.h
+	$(CXX) -c ./tests/TestClearColor.cpp $(INC)
+
+
+
+
+
 stb_image.o: ./vendor/stb_image/stb_image.cpp ./vendor/stb_image/stb_image.h
 	$(CXX) -c ./vendor/stb_image/stb_image.cpp $(INC)
 
@@ -38,8 +46,8 @@ Renderer.o: Renderer.cpp Renderer.h VertexArray.h IndexBuffer.h Shader.h
 main.o: main.cpp Renderer.h VertexBuffer.h IndexBuffer.h VertexArray.h Shader.h Texture.h
 	$(CXX) -c main.cpp $(INC)
 
-exc : main.o Renderer.o VertexBuffer.o IndexBuffer.o VertexArray.o VertexBufferLayout.o Shader.o Texture.o stb_image.o 
-	$(CXX) -o exc main.o Renderer.o VertexBuffer.o IndexBuffer.o VertexArray.o VertexBufferLayout.o Shader.o Texture.o stb_image.o $(LIBS) 
+exc : main.o Renderer.o VertexBuffer.o IndexBuffer.o VertexArray.o VertexBufferLayout.o Shader.o Texture.o stb_image.o TestClearColor.o
+	$(CXX) -o exc main.o Renderer.o VertexBuffer.o IndexBuffer.o VertexArray.o VertexBufferLayout.o Shader.o Texture.o stb_image.o TestClearColor.o $(LIBS) 
 
 clean :
 	rm -f *.o exc
