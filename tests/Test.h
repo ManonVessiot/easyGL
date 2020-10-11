@@ -10,5 +10,6 @@ namespace tests
 
             virtual void OnUpdate(float deltaTime){ }
             virtual void OnRender(){ }
+            virtual void OnImGuiRender(){ }
     };
 } // namespace tests

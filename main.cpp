@@ -14,14 +14,14 @@
 #include "vendor/imgui/imgui_impl_glfw.h"
 #include "vendor/imgui/imgui_impl_opengl3.h"
 
-
-
 #include "Renderer.h"
 #include "VertexBuffer.h"
 #include "IndexBuffer.h"
 #include "VertexArray.h"
 #include "Shader.h"
 #include "Texture.h"
+
+#include "tests/TestClearColor.h"
 
 static void updateColor(float& r, float& g, float& b, float& incrementR, float& incrementG, float& incrementB){    
     if (r > 1.0f){
@@ -48,7 +48,7 @@ static void updateColor(float& r, float& g, float& b, float& incrementR, float& 
     g += incrementG;
     b += incrementB;
 }
-
+/*
 int main(int argc, char const *argv[])
 {
     GLFWwindow * window;
@@ -216,10 +216,8 @@ int main(int argc, char const *argv[])
 
     glfwTerminate();
     return 0;
-}
+}*/
 
-/*
-#include "tests/TestClearColor.h"
 
 int main(int argc, char const *argv[])
 {
@@ -243,13 +241,14 @@ int main(int argc, char const *argv[])
         glfwTerminate();
         return -1;
     }
+    glfwGetWindowSize(window, &width, &height);
 
     // Make the window's context current
     glfwMakeContextCurrent(window);
 
     glfwSwapInterval(3);
 
-    // Init glew after making context current
+    // Init glew after making context current 
     if (glewInit() != GLEW_OK){
         std::cout << "Error!" << std::endl;
     }
@@ -258,29 +257,17 @@ int main(int argc, char const *argv[])
 
         GLCall(glEnable(GL_BLEND));
         GLCall(glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA));
-        
+
         Renderer renderer;
 
+        // ImGui : INIT
+        ImGui::CreateContext();
+        ImGui::StyleColorsDark();
+        ImGui_ImplGlfw_InitForOpenGL(window, true);
+        ImGui_ImplOpenGL3_Init("#version 130");
+
         tests::TestClearColor test;
-        switch (argc)
-        {
-        case 2:
-            test = tests::TestClearColor(atof(argv[1]));
-            break;
-        case 3:
-            test = tests::TestClearColor(atof(argv[1]), atof(argv[2]));
-            break;
-        case 4:
-            test = tests::TestClearColor(atof(argv[1]), atof(argv[2]), atof(argv[3]));
-            break;
-        case 5:
-            test = tests::TestClearColor(atof(argv[1]), atof(argv[2]), atof(argv[3]), atof(argv[4]));
-            break;
-        default:
-            test = tests::TestClearColor();
-            break;
-        }
-        
+
         // Loop until the user closes the window
         while (!glfwWindowShouldClose(window))
         {
@@ -290,11 +277,29 @@ int main(int argc, char const *argv[])
             test.OnUpdate(0.0f);
             test.OnRender();
 
+            // ImGui : INIT NEW FRAME
+            ImGui_ImplOpenGL3_NewFrame();
+            ImGui_ImplGlfw_NewFrame();
+            ImGui::NewFrame();
+
+            test.OnImGuiRender();
+
+            // ImGui : RENDER
+            ImGui::Render();
+            ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+
+            // Swap front and back buffers
             glfwSwapBuffers(window);
+
+            // Poll for and process events
             glfwPollEvents();
         }
     }
+    // ImGui : DESTROY
+    ImGui_ImplOpenGL3_Shutdown();
+    ImGui_ImplGlfw_Shutdown();
+    // ImGui::DestroyContext(); // create a file
+
     glfwTerminate();
     return 0;
 }
-*/
