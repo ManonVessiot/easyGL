@@ -10,6 +10,11 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 
+#include "vendor/imgui/imgui.h"
+#include "vendor/imgui/imgui_impl_glfw.h"
+#include "vendor/imgui/imgui_impl_opengl3.h"
+
+
 
 #include "Renderer.h"
 #include "VertexBuffer.h"
@@ -43,7 +48,7 @@ static void updateColor(float& r, float& g, float& b, float& incrementR, float& 
     g += incrementG;
     b += incrementB;
 }
-/*
+
 int main(int argc, char const *argv[])
 {
     GLFWwindow * window;
@@ -144,6 +149,14 @@ int main(int argc, char const *argv[])
 
         Renderer renderer;
 
+        // ImGui : INIT
+        ImGui::CreateContext();
+        ImGui::StyleColorsDark();
+        ImGui_ImplGlfw_InitForOpenGL(window, true);
+        ImGui_ImplOpenGL3_Init("#version 130");
+
+        glm::vec3 cameraTranslation(0.005f, -0.002f, 0.0f);
+
         float r = 0.0f;
         float g = 0.0f;
         float b = 0.0f;
@@ -156,12 +169,17 @@ int main(int argc, char const *argv[])
             // Render here
             renderer.Clear();
 
+            // ImGui : INIT NEW FRAME
+            ImGui_ImplOpenGL3_NewFrame();
+            ImGui_ImplGlfw_NewFrame();
+            ImGui::NewFrame();
+
             updateColor(r, g, b, incrementR, incrementG, incrementB);
 
             shader.Bind();
             
             // move camera
-            view = glm::translate(view, glm::vec3(0.005f, -0.002f, 0.0f));
+            view = glm::translate(view, cameraTranslation);
 
             // first object
             shader.SetUniform4f("u_Color", r, g, b, 1.0f);
@@ -175,6 +193,15 @@ int main(int argc, char const *argv[])
             shader.SetUniformMat4f("u_MVP", mvp);            
             renderer.Draw(va, ib, shader);
 
+
+            {
+                // ImGui : WINDOW'S DATA
+                ImGui::SliderFloat3("cameraTranslation", &cameraTranslation.x, -1.0f, 1.0f);
+            }
+            // ImGui : RENDER
+            ImGui::Render();
+            ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+
             // Swap front and back buffers
             glfwSwapBuffers(window);
 
@@ -182,11 +209,16 @@ int main(int argc, char const *argv[])
             glfwPollEvents();
         }
     }
+    // ImGui : DESTROY
+    ImGui_ImplOpenGL3_Shutdown();
+    ImGui_ImplGlfw_Shutdown();
+    // ImGui::DestroyContext(); // create a file
+
     glfwTerminate();
     return 0;
 }
-*/
 
+/*
 #include "tests/TestClearColor.h"
 
 int main(int argc, char const *argv[])
@@ -265,3 +297,4 @@ int main(int argc, char const *argv[])
     glfwTerminate();
     return 0;
 }
+*/

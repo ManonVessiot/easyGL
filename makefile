@@ -8,19 +8,16 @@ LIBS = $(OPENGL_LIBS)
 
 INC = -I /usr/include/
 
+VENDOR_O = ./vendor/stb_image/stb_image.o ./vendor/imgui/imgui.o ./vendor/imgui/imgui_impl_glfw.o ./vendor/imgui/imgui_impl_opengl3.o ./vendor/imgui/imgui_widgets.o ./vendor/imgui/imgui_draw.o ./vendor/imgui/imgui_demo.o
 
 all: exc
 
+TESTS = TestClearColor.o
 
 TestClearColor.o: ./tests/TestClearColor.cpp ./tests/TestClearColor.h ./tests/Test.h
 	$(CXX) -c ./tests/TestClearColor.cpp $(INC)
 
 
-
-
-
-stb_image.o: ./vendor/stb_image/stb_image.cpp ./vendor/stb_image/stb_image.h
-	$(CXX) -c ./vendor/stb_image/stb_image.cpp $(INC)
 
 Texture.o: Texture.cpp Texture.h Renderer.h
 	$(CXX) -c Texture.cpp $(INC)
@@ -46,8 +43,8 @@ Renderer.o: Renderer.cpp Renderer.h VertexArray.h IndexBuffer.h Shader.h
 main.o: main.cpp Renderer.h VertexBuffer.h IndexBuffer.h VertexArray.h Shader.h Texture.h
 	$(CXX) -c main.cpp $(INC)
 
-exc : main.o Renderer.o VertexBuffer.o IndexBuffer.o VertexArray.o VertexBufferLayout.o Shader.o Texture.o stb_image.o TestClearColor.o
-	$(CXX) -o exc main.o Renderer.o VertexBuffer.o IndexBuffer.o VertexArray.o VertexBufferLayout.o Shader.o Texture.o stb_image.o TestClearColor.o $(LIBS) 
+exc : main.o Renderer.o VertexBuffer.o IndexBuffer.o VertexArray.o VertexBufferLayout.o Shader.o Texture.o $(TESTS) $(VENDOR_O)
+	$(CXX) -o exc main.o Renderer.o VertexBuffer.o IndexBuffer.o VertexArray.o VertexBufferLayout.o Shader.o Texture.o $(TESTS) $(VENDOR_O) $(LIBS) 
 
 clean :
 	rm -f *.o exc
