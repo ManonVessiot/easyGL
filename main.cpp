@@ -28,6 +28,7 @@
 #include "tests/TestSquareAnimatedColor.h"
 #include "tests/TestTexture2D.h"
 #include "tests/TestMVP.h"
+#include "tests/TestCube.h"
 
 int main(int argc, char const *argv[])
 {
@@ -86,6 +87,7 @@ int main(int argc, char const *argv[])
         testMenu->RegisterTest<tests::TestSquareAnimatedColor>("Square Animated Color");
         testMenu->RegisterTest<tests::TestTexture2D>("Texture 2D");
         testMenu->RegisterTest<tests::TestMVP>("MVP");
+        testMenu->RegisterTest<tests::TestCube>("Cube");
 
         // Loop until the user closes the window
         while (!glfwWindowShouldClose(window))

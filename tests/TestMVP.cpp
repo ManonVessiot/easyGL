@@ -84,17 +84,17 @@ namespace tests {
         model1 = glm::translate(model1, m_model1Translation);
         model2 = glm::translate(model2, m_model2Translation);
 
-        view = glm::rotate(view, m_CameraRotation.x, glm::vec3(1.0f, 0.0f, 0.0f));
-        model1 = glm::rotate(model1, m_model1Rotation.x, glm::vec3(1.0f, 0.0f, 0.0f));
-        model2 = glm::rotate(model2, m_model2Rotation.x, glm::vec3(1.0f, 0.0f, 0.0f));
+        view = glm::rotate(view, glm::radians(m_CameraRotation.x), glm::vec3(1.0f, 0.0f, 0.0f));
+        model1 = glm::rotate(model1, glm::radians(m_model1Rotation.x), glm::vec3(1.0f, 0.0f, 0.0f));
+        model2 = glm::rotate(model2, glm::radians(m_model2Rotation.x), glm::vec3(1.0f, 0.0f, 0.0f));
 
-        view = glm::rotate(view, m_CameraRotation.y, glm::vec3(0.0f, 1.0f, 0.0f));
-        model1 = glm::rotate(model1, m_model1Rotation.y, glm::vec3(0.0f, 1.0f, 0.0f));
-        model2 = glm::rotate(model2, m_model2Rotation.y, glm::vec3(0.0f, 1.0f, 0.0f));
+        view = glm::rotate(view, glm::radians(m_CameraRotation.y), glm::vec3(0.0f, 1.0f, 0.0f));
+        model1 = glm::rotate(model1, glm::radians(m_model1Rotation.y), glm::vec3(0.0f, 1.0f, 0.0f));
+        model2 = glm::rotate(model2, glm::radians(m_model2Rotation.y), glm::vec3(0.0f, 1.0f, 0.0f));
 
-        view = glm::rotate(view, m_CameraRotation.z, glm::vec3(0.0f, 0.0f, 1.0f));
-        model1 = glm::rotate(model1, m_model1Rotation.z, glm::vec3(0.0f, 0.0f, 1.0f));
-        model2 = glm::rotate(model2, m_model2Rotation.z, glm::vec3(0.0f, 0.0f, 1.0f));
+        view = glm::rotate(view, glm::radians(m_CameraRotation.z), glm::vec3(0.0f, 0.0f, 1.0f));
+        model1 = glm::rotate(model1, glm::radians(m_model1Rotation.z), glm::vec3(0.0f, 0.0f, 1.0f));
+        model2 = glm::rotate(model2, glm::radians(m_model2Rotation.z), glm::vec3(0.0f, 0.0f, 1.0f));
 
         updateColor();
         glm::mat4 mvp;
