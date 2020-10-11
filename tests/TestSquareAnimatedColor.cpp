@@ -1,4 +1,4 @@
-#include "TestTexture2D.h"
+#include "TestSquareAnimatedColor.h"
 
 #include "../vendor/imgui/imgui.h"
 
@@ -7,8 +7,8 @@
 
 namespace tests {
 
-    TestTexture2D::TestTexture2D()
-        :m_R(0.0f), m_G(0.0f), m_B(0.0f), m_IncrementR(0.2f), m_IncrementG(0.1f), m_IncrementB(0.3f)
+    TestSquareAnimatedColor::TestSquareAnimatedColor()
+        :m_R(0.0f), m_G(0.0f), m_B(0.0f), m_IncrementR(0.02f), m_IncrementG(0.01f), m_IncrementB(0.03f)
     {
         float positions[] = {
             -0.5f, -0.5f, 0.0f, 0.0f,
@@ -24,7 +24,7 @@ namespace tests {
         GLCall(glEnable(GL_BLEND));
         GLCall(glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA));
         
-        m_Shader = std::make_unique<Shader>("shaders/MVPTexture.shader");
+        m_Shader = std::make_unique<Shader>("shaders/MVPColor.shader");
         m_VAO = std::make_unique<VertexArray>();
         m_VB = std::make_unique<VertexBuffer>(positions, 4 * 4 * sizeof(float));
 
@@ -38,9 +38,6 @@ namespace tests {
         m_Shader->Bind();
 
         m_Shader->SetUniform4f("u_Color", 0.2f, 0.3f, 0.8f, 1.0f);
-
-        m_Texture = std::make_unique<Texture>("textures/zelda.png");
-        m_Shader->SetUniform1i("u_Texture", 0);
     
         int height = 540;
         int width = 960;
@@ -52,34 +49,32 @@ namespace tests {
         m_Shader->SetUniformMat4f("u_MVP", proj); 
     }
 
-    TestTexture2D::~TestTexture2D()
+    TestSquareAnimatedColor::~TestSquareAnimatedColor()
     {
         
     }
 
-    void TestTexture2D::OnUpdate(float deltaTime)
+    void TestSquareAnimatedColor::OnUpdate(float deltaTime)
     {    
     }
 
-    void TestTexture2D::OnRender(){
+    void TestSquareAnimatedColor::OnRender(){
         Renderer renderer;
         renderer.Clear();
 
-        m_Texture->Bind();
         m_Shader->Bind();        
 
         updateColor();
 
-        // first object
         m_Shader->SetUniform4f("u_Color", m_R, m_G, m_B, 1.0f);
         renderer.Draw(*m_VAO, *m_IndexBuffer, *m_Shader);
     }
 
-    void TestTexture2D::OnImGuiRender()
+    void TestSquareAnimatedColor::OnImGuiRender()
     {
     }
 
-    void TestTexture2D::updateColor(){    
+    void TestSquareAnimatedColor::updateColor(){    
         if (m_R > 1.0f){
             m_IncrementR *= -1;
         }

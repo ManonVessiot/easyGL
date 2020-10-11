@@ -12,7 +12,7 @@ VENDOR_O = ./vendor/stb_image/stb_image.o ./vendor/imgui/imgui.o ./vendor/imgui/
 
 all: exc
 
-TESTS = Test.o TestClearColor.o TestTexture2D.o TestMVP.o TestSquare.o #TestTemplate.o
+TESTS = Test.o TestClearColor.o TestTriangle.o TestSquare.o TestSquareAnimatedColor.o TestTexture2D.o TestMVP.o #TestTemplate.o
 
 #TestTemplate.o: ./tests/TestTemplate.cpp ./tests/TestTemplate.h ./tests/Test.h
 #	$(CXX) -c ./tests/TestTemplate.cpp $(INC)
@@ -23,14 +23,21 @@ Test.o: ./tests/Test.cpp ./tests/Test.h
 TestClearColor.o: ./tests/TestClearColor.cpp ./tests/TestClearColor.h ./tests/Test.h
 	$(CXX) -c ./tests/TestClearColor.cpp $(INC)
 
+TestTriangle.o: ./tests/TestTriangle.cpp ./tests/TestTriangle.h ./tests/Test.h
+	$(CXX) -c ./tests/TestTriangle.cpp $(INC)
+
+TestSquare.o: ./tests/TestSquare.cpp ./tests/TestSquare.h ./tests/Test.h
+	$(CXX) -c ./tests/TestSquare.cpp $(INC)
+
+TestSquareAnimatedColor.o: ./tests/TestSquareAnimatedColor.cpp ./tests/TestSquareAnimatedColor.h ./tests/Test.h
+	$(CXX) -c ./tests/TestSquareAnimatedColor.cpp $(INC)
+
 TestTexture2D.o: ./tests/TestTexture2D.cpp ./tests/TestTexture2D.h ./tests/Test.h
 	$(CXX) -c ./tests/TestTexture2D.cpp $(INC)
 
 TestMVP.o: ./tests/TestMVP.cpp ./tests/TestMVP.h ./tests/Test.h
 	$(CXX) -c ./tests/TestMVP.cpp $(INC)
 
-TestSquare.o: ./tests/TestSquare.cpp ./tests/TestSquare.h ./tests/Test.h
-	$(CXX) -c ./tests/TestSquare.cpp $(INC)
 
 
 

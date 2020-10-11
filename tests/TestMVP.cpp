@@ -31,7 +31,7 @@ namespace tests {
         GLCall(glEnable(GL_BLEND));
         GLCall(glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA));
         
-        m_Shader = std::make_unique<Shader>("shaders/BasicTexture.shader");
+        m_Shader = std::make_unique<Shader>("shaders/MVPTexture.shader");
         m_VAO = std::make_unique<VertexArray>();
         m_VB = std::make_unique<VertexBuffer>(positions, 4 * 4 * sizeof(float));
 

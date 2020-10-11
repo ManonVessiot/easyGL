@@ -11,21 +11,30 @@
 
 namespace tests
 {
-    class TestSquare : public Test
+    class TestSquareAnimatedColor : public Test
     {
         private:
+            float m_R;
+            float m_G;
+            float m_B;
+            float m_IncrementR;
+            float m_IncrementG;
+            float m_IncrementB;
+
             std::unique_ptr<VertexArray> m_VAO; 
             std::unique_ptr<IndexBuffer> m_IndexBuffer;
             std::unique_ptr<Shader> m_Shader;
             std::unique_ptr<VertexBuffer> m_VB;
             
         public:
-            TestSquare();
-            ~TestSquare();
+            TestSquareAnimatedColor();
+            ~TestSquareAnimatedColor();
 
             void OnUpdate(float deltaTime) override;
             void OnRender() override;
             void OnImGuiRender() override;
+
+            void updateColor();
     };
     
 } // namespace tests

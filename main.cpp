@@ -23,9 +23,11 @@
 
 #include "tests/Test.h"
 #include "tests/TestClearColor.h"
+#include "tests/TestTriangle.h"
+#include "tests/TestSquare.h"
+#include "tests/TestSquareAnimatedColor.h"
 #include "tests/TestTexture2D.h"
 #include "tests/TestMVP.h"
-#include "tests/TestSquare.h"
 
 int main(int argc, char const *argv[])
 {
@@ -79,7 +81,9 @@ int main(int argc, char const *argv[])
         currentTest = testMenu;
 
         testMenu->RegisterTest<tests::TestClearColor>("Clear Color");
+        testMenu->RegisterTest<tests::TestTriangle>("Triangle");
         testMenu->RegisterTest<tests::TestSquare>("Square");
+        testMenu->RegisterTest<tests::TestSquareAnimatedColor>("Square Animated Color");
         testMenu->RegisterTest<tests::TestTexture2D>("Texture 2D");
         testMenu->RegisterTest<tests::TestMVP>("MVP");
 

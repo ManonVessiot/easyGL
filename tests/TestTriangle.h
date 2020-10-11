@@ -11,17 +11,19 @@
 
 namespace tests
 {
-    class TestSquare : public Test
+    class TestTriangle : public Test
     {
         private:
-            std::unique_ptr<VertexArray> m_VAO; 
+            float m_Color[4];
+
+            std::unique_ptr<VertexArray> m_VAO;
             std::unique_ptr<IndexBuffer> m_IndexBuffer;
             std::unique_ptr<Shader> m_Shader;
             std::unique_ptr<VertexBuffer> m_VB;
-            
+
         public:
-            TestSquare();
-            ~TestSquare();
+            TestTriangle();
+            ~TestTriangle();
 
             void OnUpdate(float deltaTime) override;
             void OnRender() override;
