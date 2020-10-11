@@ -72,5 +72,5 @@ exc : main.o Renderer.o VertexBuffer.o IndexBuffer.o VertexArray.o VertexBufferL
 	$(CXX) -o exc main.o Renderer.o VertexBuffer.o IndexBuffer.o VertexArray.o VertexBufferLayout.o Shader.o Texture.o $(TESTS) $(VENDOR_O) $(LIBS) 
 
 clean :
-	rm -f *.o exc
+	rm -f *.o
 	clear
