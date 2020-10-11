@@ -15,7 +15,7 @@ namespace tests {
         m_CameraRotation(0,0,0),
         m_model1Rotation(0,0,0),
         m_model2Rotation(0,0,0),
-        m_R(0.0f), m_G(0.0f), m_B(0.0f), m_IncrementR(0.2f), m_IncrementG(0.1f), m_IncrementB(0.3f)
+        m_R(0.0f), m_G(0.0f), m_B(0.0f), m_IncrementR(0.02f), m_IncrementG(0.01f), m_IncrementB(0.03f)
     {
         float positions[] = {
             -0.5f, -0.5f, 0.0f, 0.0f,
