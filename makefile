@@ -12,7 +12,10 @@ VENDOR_O = ./vendor/stb_image/stb_image.o ./vendor/imgui/imgui.o ./vendor/imgui/
 
 all: exc
 
-TESTS = Test.o TestClearColor.o TestTexture2D.o TestMVP.o TestSquare.o
+TESTS = Test.o TestClearColor.o TestTexture2D.o TestMVP.o TestSquare.o #TestTemplate.o
+
+#TestTemplate.o: ./tests/TestTemplate.cpp ./tests/TestTemplate.h ./tests/Test.h
+#	$(CXX) -c ./tests/TestTemplate.cpp $(INC)
 
 Test.o: ./tests/Test.cpp ./tests/Test.h
 	$(CXX) -c ./tests/Test.cpp $(INC)
