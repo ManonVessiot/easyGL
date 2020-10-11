@@ -21,6 +21,7 @@
 #include "Shader.h"
 #include "Texture.h"
 
+#include "tests/Test.h"
 #include "tests/TestClearColor.h"
 
 static void updateColor(float& r, float& g, float& b, float& incrementR, float& incrementG, float& incrementB){    
@@ -266,7 +267,11 @@ int main(int argc, char const *argv[])
         ImGui_ImplGlfw_InitForOpenGL(window, true);
         ImGui_ImplOpenGL3_Init("#version 130");
 
-        tests::TestClearColor test;
+        tests::Test* currentTest = nullptr;
+        tests::TestMenu* testMenu = new tests::TestMenu(currentTest);
+        currentTest = testMenu;
+
+        testMenu->RegisterTest<tests::TestClearColor>("Clear Color");
 
         // Loop until the user closes the window
         while (!glfwWindowShouldClose(window))
@@ -274,15 +279,23 @@ int main(int argc, char const *argv[])
             // Render here
             renderer.Clear();
 
-            test.OnUpdate(0.0f);
-            test.OnRender();
-
             // ImGui : INIT NEW FRAME
             ImGui_ImplOpenGL3_NewFrame();
             ImGui_ImplGlfw_NewFrame();
             ImGui::NewFrame();
-
-            test.OnImGuiRender();
+            if (currentTest)
+            {
+                currentTest->OnUpdate(0.0f);
+                currentTest->OnRender();
+                ImGui::Begin("Test");
+                if (currentTest != testMenu && ImGui::Button("<-"))
+                {
+                    delete currentTest;
+                    currentTest = testMenu;
+                }
+                currentTest->OnImGuiRender();
+                ImGui::End();
+            }
 
             // ImGui : RENDER
             ImGui::Render();
@@ -293,6 +306,10 @@ int main(int argc, char const *argv[])
 
             // Poll for and process events
             glfwPollEvents();
+        }
+        delete currentTest;
+        if (currentTest != testMenu){
+            delete testMenu;
         }
     }
     // ImGui : DESTROY

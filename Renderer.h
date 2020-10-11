@@ -25,6 +25,6 @@ public:
     Renderer();
     ~Renderer();
 
-    void Clear() const;
+    void Clear(float r = 0.0f, float g = 0.0f, float b = 0.0f, float a = 1.0f) const;
     void Draw(const VertexArray& va, const IndexBuffer& ib, const Shader& shader) const;
 };
