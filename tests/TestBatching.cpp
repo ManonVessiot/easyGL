@@ -44,9 +44,8 @@ namespace tests {
         m_IndexBuffer = std::make_unique<IndexBuffer>(indices, 2 * 6);
         
         m_Shader->Bind();
-
-        m_Shader->SetUniform1i("u_Texture0", 0);
-        m_Shader->SetUniform1i("u_Texture1", 1);
+        int samplers[2] = {0, 1};
+        m_Shader->SetUniform1iv("u_Textures", 2, samplers);
         
         // MVP matrix        
         int height = 540;

@@ -24,16 +24,15 @@ layout(location = 0) out vec4 color;
 in vec2 v_TexCoord;
 in float v_TexID;
 
-uniform sampler2D u_Texture0;
-uniform sampler2D u_Texture1;
+uniform sampler2D u_Textures[2];
 
 void main(){
    vec4 textColor;
    if (int(v_TexID) == 0){
-      textColor = texture(u_Texture0, v_TexCoord);
+      textColor = texture(u_Textures[0], v_TexCoord);
    }
    else{
-      textColor = texture(u_Texture1, v_TexCoord);
+      textColor = texture(u_Textures[1], v_TexCoord);
    }
    color = textColor;
 }
