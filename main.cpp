@@ -29,6 +29,7 @@
 #include "tests/TestTexture2D.h"
 #include "tests/TestMVP.h"
 #include "tests/TestCube.h"
+#include "tests/TestBatching.h"
 
 int main(int argc, char const *argv[])
 {
@@ -88,6 +89,7 @@ int main(int argc, char const *argv[])
         testMenu->RegisterTest<tests::TestTexture2D>("Texture 2D");
         testMenu->RegisterTest<tests::TestMVP>("MVP");
         testMenu->RegisterTest<tests::TestCube>("Cube");
+        testMenu->RegisterTest<tests::TestBatching>("Batching");
 
         // Loop until the user closes the window
         while (!glfwWindowShouldClose(window))

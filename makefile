@@ -12,10 +12,7 @@ VENDOR_O = ./vendor/stb_image/stb_image.o ./vendor/imgui/imgui.o ./vendor/imgui/
 
 all: exc
 
-TESTS = Test.o TestClearColor.o TestTriangle.o TestSquare.o TestSquareAnimatedColor.o TestTexture2D.o TestMVP.o TestCube.o #TestTemplate.o
-
-#TestTemplate.o: ./tests/TestTemplate.cpp ./tests/TestTemplate.h ./tests/Test.h
-#	$(CXX) -c ./tests/TestTemplate.cpp $(INC)
+TESTS = Test.o TestClearColor.o TestTriangle.o TestSquare.o TestSquareAnimatedColor.o TestTexture2D.o TestMVP.o TestCube.o TestBatching.o #TestTemplate.o
 
 Test.o: ./tests/Test.cpp ./tests/Test.h
 	$(CXX) -c ./tests/Test.cpp $(INC)
@@ -41,7 +38,11 @@ TestMVP.o: ./tests/TestMVP.cpp ./tests/TestMVP.h ./tests/Test.h
 TestCube.o: ./tests/TestCube.cpp ./tests/TestCube.h ./tests/Test.h
 	$(CXX) -c ./tests/TestCube.cpp $(INC)
 
+TestBatching.o: ./tests/TestBatching.cpp ./tests/TestBatching.h ./tests/Test.h
+	$(CXX) -c ./tests/TestBatching.cpp $(INC)
 
+#TestTemplate.o: ./tests/TestTemplate.cpp ./tests/TestTemplate.h ./tests/Test.h
+#	$(CXX) -c ./tests/TestTemplate.cpp $(INC)
 
 
 Texture.o: Texture.cpp Texture.h Renderer.h
@@ -72,5 +73,5 @@ exc : main.o Renderer.o VertexBuffer.o IndexBuffer.o VertexArray.o VertexBufferL
 	$(CXX) -o exc main.o Renderer.o VertexBuffer.o IndexBuffer.o VertexArray.o VertexBufferLayout.o Shader.o Texture.o $(TESTS) $(VENDOR_O) $(LIBS) 
 
 clean :
-	rm -f *.o imgui.ini
+	rm -f *.o exc imgui.ini
 	clear
