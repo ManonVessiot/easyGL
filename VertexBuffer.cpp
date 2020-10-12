@@ -2,12 +2,12 @@
 #include "Renderer.h"
 
 
-VertexBuffer::VertexBuffer(const void* data, unsigned int size)
+VertexBuffer::VertexBuffer(const void* data, unsigned int size, unsigned int drawMode)
 {
 
     GLCall(glGenBuffers(1, &m_RendererID));
     GLCall(glBindBuffer(GL_ARRAY_BUFFER, m_RendererID));
-    GLCall(glBufferData(GL_ARRAY_BUFFER, size, data, GL_STATIC_DRAW));
+    GLCall(glBufferData(GL_ARRAY_BUFFER, size, data, drawMode));
 
 }
 
@@ -24,4 +24,8 @@ void VertexBuffer::Bind() const
 void VertexBuffer::Unbind() const
 {
     GLCall(glBindBuffer(GL_ARRAY_BUFFER, 0));
+}
+
+void VertexBuffer::WriteData(unsigned int offset, unsigned int size, const void* data){
+    glBufferSubData(GL_ARRAY_BUFFER, offset, size, data);
 }

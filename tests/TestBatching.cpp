@@ -10,15 +10,15 @@ namespace tests {
     TestBatching::TestBatching()
     {
         float positions[] = {
-             0.5f, -0.5f, 0.0f, 0.0f, 0.0f,
-             1.5f, -0.5f, 1.0f, 0.0f, 0.0f,
-             1.5f,  0.5f, 1.0f, 1.0f, 0.0f,
-             0.5f,  0.5f, 0.0f, 1.0f, 0.0f,
+             0.5f, -0.5f, 0.0f, 1.0f, 1.0f, 1.0f, 1.0f, 0.0f, 0.0f, 0.0f,
+             1.5f, -0.5f, 0.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 0.0f, 0.0f,
+             1.5f,  0.5f, 0.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 0.0f,
+             0.5f,  0.5f, 0.0f, 1.0f, 1.0f, 1.0f, 1.0f, 0.0f, 1.0f, 0.0f,
 
-            -1.5f, -0.5f, 0.0f, 0.0f, 1.0f,
-            -0.5f, -0.5f, 1.0f, 0.0f, 1.0f,
-            -0.5f,  0.5f, 1.0f, 1.0f, 1.0f,
-            -1.5f,  0.5f, 0.0f, 1.0f, 1.0f
+            -1.5f, -0.5f, 0.0f, 0.0f, 0.0f, 1.0f, 1.0f, 0.0f, 0.0f, 1.0f,
+            -0.5f, -0.5f, 0.0f, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f, 0.0f, 1.0f,
+            -0.5f,  0.5f, 0.0f, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f,
+            -1.5f,  0.5f, 0.0f, 0.0f, 0.0f, 1.0f, 1.0f, 0.0f, 1.0f, 1.0f
         };
         unsigned int indices[] = {
             0, 1, 2,
@@ -33,10 +33,11 @@ namespace tests {
         
         m_Shader = std::make_unique<Shader>("shaders/MVPTextureBatching.shader");
         m_VAO = std::make_unique<VertexArray>();
-        m_VB = std::make_unique<VertexBuffer>(positions, 8 * 5 * sizeof(float));
+        m_VB = std::make_unique<VertexBuffer>(positions, 8 * 10 * sizeof(float));
 
         VertexBufferLayout layout;
-        layout.Push(GL_FLOAT, 2);
+        layout.Push(GL_FLOAT, 3);
+        layout.Push(GL_FLOAT, 4);
         layout.Push(GL_FLOAT, 2);
         layout.Push(GL_FLOAT, 1);
 

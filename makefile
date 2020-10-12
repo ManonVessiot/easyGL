@@ -12,7 +12,7 @@ VENDOR_O = ./vendor/stb_image/stb_image.o ./vendor/imgui/imgui.o ./vendor/imgui/
 
 all: exc
 
-TESTS = Test.o TestClearColor.o TestTriangle.o TestSquare.o TestSquareAnimatedColor.o TestTexture2D.o TestMVP.o TestCube.o TestBatching.o #TestTemplate.o
+TESTS = Test.o TestClearColor.o TestTriangle.o TestSquare.o TestSquareAnimatedColor.o TestTexture2D.o TestMVP.o TestCube.o TestBatching.o TestBatchingDynamic.o #TestTemplate.o
 
 Test.o: ./tests/Test.cpp ./tests/Test.h
 	$(CXX) -c ./tests/Test.cpp $(INC)
@@ -40,6 +40,9 @@ TestCube.o: ./tests/TestCube.cpp ./tests/TestCube.h ./tests/Test.h
 
 TestBatching.o: ./tests/TestBatching.cpp ./tests/TestBatching.h ./tests/Test.h
 	$(CXX) -c ./tests/TestBatching.cpp $(INC)
+
+TestBatchingDynamic.o: ./tests/TestBatchingDynamic.cpp ./tests/TestBatchingDynamic.h ./tests/Test.h
+	$(CXX) -c ./tests/TestBatchingDynamic.cpp $(INC)
 
 #TestTemplate.o: ./tests/TestTemplate.cpp ./tests/TestTemplate.h ./tests/Test.h
 #	$(CXX) -c ./tests/TestTemplate.cpp $(INC)
