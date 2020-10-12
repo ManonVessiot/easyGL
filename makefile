@@ -8,45 +8,15 @@ LIBS = $(OPENGL_LIBS)
 
 INC = -I /usr/include/
 
-VENDOR_O = ./vendor/stb_image/stb_image.o ./vendor/imgui/imgui.o ./vendor/imgui/imgui_impl_glfw.o ./vendor/imgui/imgui_impl_opengl3.o ./vendor/imgui/imgui_widgets.o ./vendor/imgui/imgui_draw.o ./vendor/imgui/imgui_demo.o
+VENDOR_O = ./vendor/stb_image/stb_image.o ./vendor/imgui/imgui.o ./vendor/imgui/imgui_impl_glfw.o ./vendor/imgui/imgui_impl_opengl3.o \
+	./vendor/imgui/imgui_widgets.o ./vendor/imgui/imgui_draw.o ./vendor/imgui/imgui_demo.o
+
+TESTS = ./tests/Test.o ./tests/TestClearColor.o ./tests/TestTriangle.o ./tests/TestSquare.o ./tests/TestSquareAnimatedColor.o \
+	./tests/TestTexture2D.o ./tests/TestMVP.o ./tests/TestCube.o ./tests/TestBatching.o ./tests/TestBatchingDynamic.o
+
+LOCAL = main.o Renderer.o VertexBuffer.o IndexBuffer.o VertexArray.o VertexBufferLayout.o Shader.o Texture.o
 
 all: exc
-
-TESTS = Test.o TestClearColor.o TestTriangle.o TestSquare.o TestSquareAnimatedColor.o TestTexture2D.o TestMVP.o TestCube.o TestBatching.o TestBatchingDynamic.o #TestTemplate.o
-
-Test.o: ./tests/Test.cpp ./tests/Test.h
-	$(CXX) -c ./tests/Test.cpp $(INC)
-
-TestClearColor.o: ./tests/TestClearColor.cpp ./tests/TestClearColor.h ./tests/Test.h
-	$(CXX) -c ./tests/TestClearColor.cpp $(INC)
-
-TestTriangle.o: ./tests/TestTriangle.cpp ./tests/TestTriangle.h ./tests/Test.h
-	$(CXX) -c ./tests/TestTriangle.cpp $(INC)
-
-TestSquare.o: ./tests/TestSquare.cpp ./tests/TestSquare.h ./tests/Test.h
-	$(CXX) -c ./tests/TestSquare.cpp $(INC)
-
-TestSquareAnimatedColor.o: ./tests/TestSquareAnimatedColor.cpp ./tests/TestSquareAnimatedColor.h ./tests/Test.h
-	$(CXX) -c ./tests/TestSquareAnimatedColor.cpp $(INC)
-
-TestTexture2D.o: ./tests/TestTexture2D.cpp ./tests/TestTexture2D.h ./tests/Test.h
-	$(CXX) -c ./tests/TestTexture2D.cpp $(INC)
-
-TestMVP.o: ./tests/TestMVP.cpp ./tests/TestMVP.h ./tests/Test.h
-	$(CXX) -c ./tests/TestMVP.cpp $(INC)
-
-TestCube.o: ./tests/TestCube.cpp ./tests/TestCube.h ./tests/Test.h
-	$(CXX) -c ./tests/TestCube.cpp $(INC)
-
-TestBatching.o: ./tests/TestBatching.cpp ./tests/TestBatching.h ./tests/Test.h
-	$(CXX) -c ./tests/TestBatching.cpp $(INC)
-
-TestBatchingDynamic.o: ./tests/TestBatchingDynamic.cpp ./tests/TestBatchingDynamic.h ./tests/Test.h
-	$(CXX) -c ./tests/TestBatchingDynamic.cpp $(INC)
-
-#TestTemplate.o: ./tests/TestTemplate.cpp ./tests/TestTemplate.h ./tests/Test.h
-#	$(CXX) -c ./tests/TestTemplate.cpp $(INC)
-
 
 Texture.o: Texture.cpp Texture.h Renderer.h
 	$(CXX) -c Texture.cpp $(INC)
@@ -72,9 +42,16 @@ Renderer.o: Renderer.cpp Renderer.h VertexArray.h IndexBuffer.h Shader.h
 main.o: main.cpp Renderer.h VertexBuffer.h IndexBuffer.h VertexArray.h Shader.h Texture.h
 	$(CXX) -c main.cpp $(INC)
 
-exc : main.o Renderer.o VertexBuffer.o IndexBuffer.o VertexArray.o VertexBufferLayout.o Shader.o Texture.o $(TESTS) $(VENDOR_O)
-	$(CXX) -o exc main.o Renderer.o VertexBuffer.o IndexBuffer.o VertexArray.o VertexBufferLayout.o Shader.o Texture.o $(TESTS) $(VENDOR_O) $(LIBS) 
+exc: $(LOCAL)
+	cd ./tests && \
+	make clean && \
+	make && \
+	cd .. && \
+	$(CXX) -o exc $(LOCAL) $(TESTS) $(VENDOR_O) $(LIBS) 
 
 clean :
-	rm -f *.o exc imgui.ini
+	cd ./tests && \
+	make clean && \
+	cd .. && \
+	rm -f *.o exc imgui.ini &&\
 	clear
