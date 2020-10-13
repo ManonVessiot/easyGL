@@ -7,9 +7,9 @@
 namespace tests {
 
     TestModel::TestModel()
-        :m_GTrans{0.0f, 0.0f, 0.0f}, m_LTrans{0.0f, 0.0f, 0.0f},
-         m_GRot{0.0f, 0.0f, 0.0f}, m_LRot{0.0f, 0.0f, 0.0f},
-         m_GScale{1.0f, 1.0f, 1.0f}, m_LScale{1.0f, 1.0f, 1.0f}
+        :m_Trans{0.0f, 0.0f, 0.0f},
+         m_Rot{0.0f, 0.0f, 0.0f},
+         m_Scale{1.0f, 1.0f, 1.0f}
     {
         GLCall(glEnable(GL_BLEND));
         GLCall(glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA));
@@ -61,12 +61,9 @@ namespace tests {
 
     void TestModel::OnUpdate(float deltaTime)
     {
-        m_Model.SetTranslation(m_GTrans[0], m_GTrans[1], m_GTrans[2], MyModel::GLOBAL);
-        m_Model.SetTranslation(m_LTrans[0], m_LTrans[1], m_LTrans[2], MyModel::LOCAL);
-        m_Model.SetRotationEuler(m_GRot[0], m_GRot[1], m_GRot[2], MyModel::GLOBAL);
-        m_Model.SetRotationEuler(m_LRot[0], m_LRot[1], m_LRot[2], MyModel::LOCAL);
-        m_Model.SetScale(m_GScale[0], m_GScale[1], m_GScale[2], MyModel::GLOBAL);
-        m_Model.SetScale(m_LScale[0], m_LScale[1], m_LScale[2], MyModel::LOCAL);
+        m_Model.SetTranslation(m_Trans[0], m_Trans[1], m_Trans[2]);
+        m_Model.SetRotationEuler(m_Rot[0], m_Rot[1], m_Rot[2]);
+        m_Model.SetScale(m_Scale[0], m_Scale[1], m_Scale[2]);
         
         MyModel::Vertex* vertices = m_Model.GetVertexData();
 
@@ -92,11 +89,8 @@ namespace tests {
 
     void TestModel::OnImGuiRender()
     {
-        ImGui::DragFloat3("Global translation", m_GTrans, 0.1f);
-        ImGui::DragFloat3("Local translation", m_LTrans, 0.1f);
-        ImGui::DragFloat3("Global rotation", m_GRot, 0.1f);
-        ImGui::DragFloat3("Local rotation", m_LRot, 0.1f);
-        ImGui::DragFloat3("Global scale", m_GScale, 0.1f);
-        ImGui::DragFloat3("Local scale", m_LScale, 0.1f);
+        ImGui::DragFloat3("Global translation", m_Trans, 0.1f);
+        ImGui::DragFloat3("Global rotation", m_Rot, 0.1f);
+        ImGui::DragFloat3("Global scale", m_Scale, 0.1f);
     }
 }

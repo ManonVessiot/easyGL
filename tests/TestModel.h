@@ -16,12 +16,9 @@ namespace tests
     {
         private:
             MyModel m_Model;
-            float m_GTrans[3];
-            float m_LTrans[3];
-            float m_GRot[3];
-            float m_LRot[3];
-            float m_GScale[3];
-            float m_LScale[3];
+            float m_Trans[3];
+            float m_Rot[3];
+            float m_Scale[3];
 
             std::unique_ptr<VertexArray> m_VAO; 
             std::unique_ptr<IndexBuffer> m_IndexBuffer;
