@@ -6,51 +6,78 @@
 
 
 MyModel::MyModel()
-    :m_Translation(0.0f, 0.0f, 0.0f), m_Rotation(1.0f, 0.0f, 0.0f, 0.0f), m_Scale(1.0f, 1.0f, 1.0f)
+    :m_GlobalTranslation(0.0f, 0.0f, 0.0f), m_GlobalRotation(1.0f, 0.0f, 0.0f, 0.0f), m_GlobalScale(1.0f, 1.0f, 1.0f),
+     m_LocalTranslation(0.0f, 0.0f, 0.0f), m_LocalRotation(1.0f, 0.0f, 0.0f, 0.0f), m_LocalScale(1.0f, 1.0f, 1.0f)
 {
-        std::cout   << "SRT" << std::endl;
-        std::cout   << m_Scale.x        << ", " << m_Scale.y        << ", " << m_Scale.z        << ", "
-                    << m_Rotation.x     << ", " << m_Rotation.y     << ", " << m_Rotation.z     << ", " << m_Rotation.w     << ", "
-                    << m_Translation.x  << ", " << m_Translation.y  << ", " << m_Translation.z  << ", " << std::endl;
 }
 
 MyModel::~MyModel()
 {
 }
 
-void MyModel::SetTranslation(float x, float y, float z)
+void MyModel::SetTranslation(float x, float y, float z, Landmark landmark)
 {
-    m_Translation = glm::vec3(x, y, z);
+    if (landmark == GLOBAL){
+        m_GlobalTranslation = glm::vec3(x, y, z); 
+    }
+    else if (landmark == LOCAL){
+        m_LocalTranslation = glm::vec3(x, y, z);        
+    }
 }
-void MyModel::Translate(float x, float y, float z)
+void MyModel::Translate(float x, float y, float z, Landmark landmark)
 {
-    m_Translation += glm::vec3(x, y, z);
+    if (landmark == GLOBAL){
+        m_GlobalTranslation += glm::vec3(x, y, z); 
+    }
+    else if (landmark == LOCAL){
+        m_LocalTranslation += glm::vec3(x, y, z);      
+    }
 }
 
-void MyModel::SetRotationEuler(float x, float y, float z)
+void MyModel::SetRotationEuler(float x, float y, float z, Landmark landmark)
 {
     glm::quat quatX(cos(glm::radians(x) / 2), sin(glm::radians(x) / 2), 0, 0);
     glm::quat quatY(cos(glm::radians(y) / 2), 0, sin(glm::radians(y) / 2), 0);
     glm::quat quatZ(cos(glm::radians(z) / 2), 0, 0, sin(glm::radians(z) / 2));
 
-    m_Rotation = quatX * quatY * quatZ;
+    if (landmark == GLOBAL){
+        m_GlobalRotation = quatX * quatY * quatZ; 
+    }
+    else if (landmark == LOCAL){
+        m_LocalRotation = quatX * quatY * quatZ;      
+    }
 }
-void MyModel::RotateEuler(float x, float y, float z)
+void MyModel::RotateEuler(float x, float y, float z, Landmark landmark)
 {
     glm::quat quatX(cos(glm::radians(x) / 2), sin(glm::radians(x) / 2), 0, 0);
     glm::quat quatY(cos(glm::radians(y) / 2), sin(glm::radians(y) / 2), 0, 0);
     glm::quat quatZ(cos(glm::radians(z) / 2), sin(glm::radians(z) / 2), 0, 0);
 
-    m_Rotation = m_Rotation * quatX * quatY * quatZ;
+    if (landmark == GLOBAL){
+        m_GlobalRotation = m_GlobalRotation * quatX * quatY * quatZ; 
+    }
+    else if (landmark == LOCAL){
+        m_LocalRotation = m_LocalRotation * quatX * quatY * quatZ;      
+    }
 }
 
-void MyModel::SetRotationQuaternion(float w, float x, float y, float z)
+void MyModel::SetRotationQuaternion(float w, float x, float y, float z, Landmark landmark)
 {
-    m_Rotation = glm::quat(w, x, y, z);
+    if (landmark == GLOBAL){
+        m_GlobalRotation = glm::quat(w, x, y, z);
+    }
+    else if (landmark == LOCAL){
+        m_LocalRotation = glm::quat(w, x, y, z);
+    }
 }
-void MyModel::RotateQuaternion(float w, float x, float y, float z)
+void MyModel::RotateQuaternion(float w, float x, float y, float z, Landmark landmark)
 {
-    m_Rotation = m_Rotation * glm::quat(w, x, y, z);
+    if (landmark == GLOBAL){
+        m_GlobalRotation = m_GlobalRotation * glm::quat(w, x, y, z);
+    }
+    else if (landmark == LOCAL){
+        m_LocalRotation = m_LocalRotation * glm::quat(w, x, y, z);
+    }
 }
 
 MyModel::Vertex* MyModel::GetVertexData()
@@ -58,19 +85,26 @@ MyModel::Vertex* MyModel::GetVertexData()
     m_FinalVertices.clear();
     for (Vertex vert : m_Vertices) m_FinalVertices.push_back(vert);
 
-    glm::mat4 scaleMat = glm::scale(glm::mat4(1.0f), m_Scale);
+    glm::mat4 scaleGMat = glm::scale(glm::mat4(1.0f), m_GlobalScale);
+    glm::mat4 scaleLMat = glm::scale(glm::mat4(1.0f), m_LocalScale);
 
-    glm::vec3 euler = glm::eulerAngles(m_Rotation);
-    glm::mat4 rotationMat = glm::eulerAngleXYZ(euler.x, euler.y, euler.z);
+    glm::vec3 eulerG = glm::eulerAngles(m_GlobalRotation);
+    glm::mat4 rotationGMat = glm::eulerAngleXYZ(eulerG.x, eulerG.y, eulerG.z);
+    glm::vec3 eulerL = glm::eulerAngles(m_LocalRotation);
+    glm::mat4 rotationLMat = glm::eulerAngleXYZ(eulerL.x, eulerL.y, eulerL.z);
 
-    glm::mat4 translationMat = glm::translate(glm::mat4(1.0f), m_Translation);
+    glm::mat4 translationGMat = glm::translate(glm::mat4(1.0f), m_GlobalTranslation);
+    glm::mat4 translationTMat = glm::translate(glm::mat4(1.0f), m_LocalTranslation);
 
     for (Vertex &vert : m_FinalVertices){
-        vert.Position = scaleMat * glm::vec4(vert.Position, 1.0f);
-        vert.Position = rotationMat * glm::vec4(vert.Position, 1.0f);
-        vert.Position = translationMat * glm::vec4(vert.Position, 1.0f);
+        vert.Position = scaleGMat * glm::vec4(vert.Position, 1.0f);
+        vert.Position = translationTMat * glm::vec4(vert.Position, 1.0f);
+        vert.Position = rotationLMat * glm::vec4(vert.Position, 1.0f);
+        vert.Position = scaleLMat * glm::vec4(vert.Position, 1.0f);
+        vert.Position = translationGMat * glm::vec4(vert.Position, 1.0f);
+        vert.Position = rotationGMat * glm::vec4(vert.Position, 1.0f);
 
-        vert.Normal = m_Rotation * glm::vec4(vert.Normal, 1.0f);
+        vert.Normal = rotationLMat * rotationGMat * glm::vec4(vert.Normal, 1.0f);
     }
 
     return m_FinalVertices.data();

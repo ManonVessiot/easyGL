@@ -38,5 +38,5 @@ void main(){
    else{
       textColor = texture(u_Textures[1], v_TexCoord);
    }
-   color = vec4(1.0f, 0.0f, 0.0f, 1.0f);
+   color = textColor;
 }
