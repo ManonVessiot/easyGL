@@ -15,6 +15,25 @@ MyModel::~MyModel()
 {
 }
 
+void MyModel::SetScale(float x, float y, float z, Landmark landmark)
+{
+    if (landmark == GLOBAL){
+        m_GlobalScale = glm::vec3(x, y, z); 
+    }
+    else if (landmark == LOCAL){
+        m_LocalScale = glm::vec3(x, y, z);        
+    }
+}
+void MyModel::Scale(float x, float y, float z, Landmark landmark)
+{
+    if (landmark == GLOBAL){
+        m_GlobalScale += glm::vec3(x, y, z); 
+    }
+    else if (landmark == LOCAL){
+        m_LocalScale += glm::vec3(x, y, z);      
+    }
+}
+
 void MyModel::SetTranslation(float x, float y, float z, Landmark landmark)
 {
     if (landmark == GLOBAL){
@@ -94,15 +113,15 @@ MyModel::Vertex* MyModel::GetVertexData()
     glm::mat4 rotationLMat = glm::eulerAngleXYZ(eulerL.x, eulerL.y, eulerL.z);
 
     glm::mat4 translationGMat = glm::translate(glm::mat4(1.0f), m_GlobalTranslation);
-    glm::mat4 translationTMat = glm::translate(glm::mat4(1.0f), m_LocalTranslation);
+    glm::mat4 translationLMat = glm::translate(glm::mat4(1.0f), m_LocalTranslation);
 
     for (Vertex &vert : m_FinalVertices){
-        vert.Position = scaleGMat * glm::vec4(vert.Position, 1.0f);
-        vert.Position = translationTMat * glm::vec4(vert.Position, 1.0f);
-        vert.Position = rotationLMat * glm::vec4(vert.Position, 1.0f);
         vert.Position = scaleLMat * glm::vec4(vert.Position, 1.0f);
-        vert.Position = translationGMat * glm::vec4(vert.Position, 1.0f);
+        vert.Position = translationLMat * glm::vec4(vert.Position, 1.0f);
+        vert.Position = rotationLMat * glm::vec4(vert.Position, 1.0f);
         vert.Position = rotationGMat * glm::vec4(vert.Position, 1.0f);
+        vert.Position = translationGMat * glm::vec4(vert.Position, 1.0f);
+        vert.Position = scaleGMat * glm::vec4(vert.Position, 1.0f);
 
         vert.Normal = rotationLMat * rotationGMat * glm::vec4(vert.Normal, 1.0f);
     }

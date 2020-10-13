@@ -32,6 +32,9 @@ public:
     MyModel();
     ~MyModel();
 
+    void SetScale(float x = 0.0f, float y = 0.0f, float z = 0.0f, Landmark landmark = GLOBAL);
+    void Scale(float x = 0.0f, float y = 0.0f, float z = 0.0f, Landmark landmark = GLOBAL);
+
     void SetTranslation(float x = 0.0f, float y = 0.0f, float z = 0.0f, Landmark landmark = GLOBAL);
     void Translate(float x = 0.0f, float y = 0.0f, float z = 0.0f, Landmark landmark = GLOBAL);
 
