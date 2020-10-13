@@ -16,7 +16,7 @@ TESTS = ./tests/Test.o ./tests/TestClearColor.o ./tests/TestTriangle.o ./tests/T
 
 LOCAL = main.o Renderer.o VertexBuffer.o IndexBuffer.o VertexArray.o VertexBufferLayout.o Shader.o Texture.o
 
-all: exc
+all: $(LOCAL)
 
 Texture.o: Texture.cpp Texture.h Renderer.h
 	$(CXX) -c Texture.cpp $(INC)
@@ -43,15 +43,8 @@ main.o: main.cpp Renderer.h VertexBuffer.h IndexBuffer.h VertexArray.h Shader.h 
 	$(CXX) -c main.cpp $(INC)
 
 exc: $(LOCAL)
-	cd ./tests && \
-	make clean && \
-	make && \
-	cd .. && \
-	$(CXX) -o exc $(LOCAL) $(TESTS) $(VENDOR_O) $(LIBS) 
+	$(CXX) -o exc $(LOCAL) $(TESTS) $(VENDOR_O) $(LIBS)
 
 clean :
-	cd ./tests && \
-	make clean && \
-	cd .. && \
 	rm -f *.o exc imgui.ini &&\
 	clear
