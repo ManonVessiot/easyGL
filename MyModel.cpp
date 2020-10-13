@@ -119,9 +119,9 @@ MyModel::Vertex* MyModel::GetVertexData()
         vert.Position = scaleLMat * glm::vec4(vert.Position, 1.0f);
         vert.Position = translationLMat * glm::vec4(vert.Position, 1.0f);
         vert.Position = rotationLMat * glm::vec4(vert.Position, 1.0f);
-        vert.Position = rotationGMat * glm::vec4(vert.Position, 1.0f);
         vert.Position = translationGMat * glm::vec4(vert.Position, 1.0f);
         vert.Position = scaleGMat * glm::vec4(vert.Position, 1.0f);
+        vert.Position = rotationGMat * glm::vec4(vert.Position, 1.0f);
 
         vert.Normal = rotationLMat * rotationGMat * glm::vec4(vert.Normal, 1.0f);
     }
