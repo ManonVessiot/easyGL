@@ -31,6 +31,7 @@
 #include "tests/TestCube.h"
 #include "tests/TestBatching.h"
 #include "tests/TestBatchingDynamic.h"
+#include "tests/TestModel.h"
 
 int main(int argc, char const *argv[])
 {
@@ -92,6 +93,7 @@ int main(int argc, char const *argv[])
         testMenu->RegisterTest<tests::TestCube>("Cube");
         testMenu->RegisterTest<tests::TestBatching>("Batching");
         testMenu->RegisterTest<tests::TestBatchingDynamic>("Batching Dynamic");
+        testMenu->RegisterTest<tests::TestModel>("TestModel");
 
         // Loop until the user closes the window
         while (!glfwWindowShouldClose(window))

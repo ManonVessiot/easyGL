@@ -14,7 +14,7 @@ public:
     void Bind() const;
     void Unbind() const;
 
-    void WriteData(unsigned int offsetCount, unsigned int size, const void* data);
+    void WriteData(unsigned int offsetCount, unsigned int count, const void* data);
 
     inline unsigned int GetCount() const {return m_Count;}
 };
