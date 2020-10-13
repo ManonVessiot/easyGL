@@ -11,6 +11,14 @@
 
 namespace tests
 {
+    struct TVertex
+    {
+        glm::vec3 Position;
+        glm::vec4 Color;
+        glm::vec2 TexCoords;
+        float TexID;
+    };
+
     class TestBatchingDynamic : public Test
     {
         private:
@@ -30,6 +38,9 @@ namespace tests
             void OnUpdate(float deltaTime) override;
             void OnRender() override;
             void OnImGuiRender() override;
+
+            static std::array<unsigned int, 6> CreateQuadIndices(unsigned int offsetCount);
+            static std::array<TVertex, 4> CreateQuad(glm::vec3 cornerPos, float size, glm::vec4 color, float texID);
     };
     
 } // namespace tests
