@@ -5,6 +5,7 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 
+
 namespace tests {
 
     TestSquare::TestSquare()
@@ -20,7 +21,7 @@ namespace tests {
             2, 3, 0
         };
 
-        m_Renderer.Blend();
+        easyGL::Renderer::Blend();
         
         m_Shader = std::make_unique<easyGL::Shader>("shaders/MVPColor.shader");
         m_VAO = std::make_unique<easyGL::VertexArray>();
@@ -57,11 +58,11 @@ namespace tests {
     }
 
     void TestSquare::OnRender(){
-        m_Renderer.Clear();
+        easyGL::Renderer::Clear();
 
         m_Shader->Bind();
 
-        m_Renderer.Draw(*m_VAO, *m_IndexBuffer, *m_Shader);
+        easyGL::Renderer::Draw(*m_VAO, *m_IndexBuffer, *m_Shader);
     }
 
     void TestSquare::OnImGuiRender()

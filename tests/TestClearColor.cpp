@@ -2,6 +2,8 @@
 
 #include "../vendor/imgui/imgui.h"
 
+#include "../Renderer.h"
+
 namespace tests {
     TestClearColor::TestClearColor(float color[])
         :TestClearColor(color[0], color[1], color[2], color[3])
@@ -22,7 +24,7 @@ namespace tests {
     }
 
     void TestClearColor::OnRender(){
-        m_Renderer.Clear(m_ClearColor[0], m_ClearColor[1], m_ClearColor[2], m_ClearColor[3]);
+        easyGL::Renderer::Clear(m_ClearColor[0], m_ClearColor[1], m_ClearColor[2], m_ClearColor[3]);
     }
 
     void TestClearColor::OnImGuiRender(){

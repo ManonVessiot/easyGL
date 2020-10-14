@@ -28,7 +28,7 @@ namespace tests {
             2, 3, 0
         };
 
-        m_Renderer.Blend();
+        easyGL::Renderer::Blend();
         
         m_Shader = std::make_unique<easyGL::Shader>("shaders/MVPTexture.shader");
         m_VAO = std::make_unique<easyGL::VertexArray>();
@@ -68,7 +68,7 @@ namespace tests {
     }
 
     void TestMVP::OnRender(){
-        m_Renderer.Clear();
+        easyGL::Renderer::Clear();
 
         m_Texture->Bind();
         m_Shader->Bind();
@@ -101,13 +101,13 @@ namespace tests {
         m_Shader->SetUniform4f("u_Color", m_R, m_G, m_B, 1.0f);
         mvp = m_Proj * view * model1;
         m_Shader->SetUniformMat4f("u_MVP", mvp);
-        m_Renderer.Draw(*m_VAO, *m_IndexBuffer, *m_Shader);
+        easyGL::Renderer::Draw(*m_VAO, *m_IndexBuffer, *m_Shader);
             
         // second object
         m_Shader->SetUniform4f("u_Color", 1, 1, 1, 1.0f);
         mvp = m_Proj * view * model2;
         m_Shader->SetUniformMat4f("u_MVP", mvp);            
-        m_Renderer.Draw(*m_VAO, *m_IndexBuffer, *m_Shader);
+        easyGL::Renderer::Draw(*m_VAO, *m_IndexBuffer, *m_Shader);
     }
 
     void TestMVP::OnImGuiRender(){

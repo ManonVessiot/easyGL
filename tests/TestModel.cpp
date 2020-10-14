@@ -11,7 +11,7 @@ namespace tests {
          m_Rot{0.0f, 0.0f, 0.0f},
          m_Scale{1.0f, 1.0f, 1.0f}
     {
-        m_Renderer.Blend();
+        easyGL::Renderer::Blend();
         
         m_Shader = std::make_unique<easyGL::Shader>("shaders/Model.shader");
         m_VAO = std::make_unique<easyGL::VertexArray>();
@@ -77,12 +77,12 @@ namespace tests {
 
     void TestModel::OnRender()
     {
-        m_Renderer.Clear();
+        easyGL::Renderer::Clear();
 
         m_Texture1->Bind(0);
         m_Texture2->Bind(1);
         m_Shader->Bind();
-        m_Renderer.Draw(*m_VAO, *m_IndexBuffer, *m_Shader);
+        easyGL::Renderer::Draw(*m_VAO, *m_IndexBuffer, *m_Shader);
     }
 
     void TestModel::OnImGuiRender()

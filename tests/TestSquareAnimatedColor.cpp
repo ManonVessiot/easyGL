@@ -21,7 +21,7 @@ namespace tests {
             2, 3, 0
         };
 
-        m_Renderer.Blend();
+        easyGL::Renderer::Blend();
         
         m_Shader = std::make_unique<easyGL::Shader>("shaders/MVPColor.shader");
         m_VAO = std::make_unique<easyGL::VertexArray>();
@@ -58,14 +58,14 @@ namespace tests {
     }
 
     void TestSquareAnimatedColor::OnRender(){
-        m_Renderer.Clear();
+        easyGL::Renderer::Clear();
 
         m_Shader->Bind();        
 
         updateColor();
 
         m_Shader->SetUniform4f("u_Color", m_R, m_G, m_B, 1.0f);
-        m_Renderer.Draw(*m_VAO, *m_IndexBuffer, *m_Shader);
+        easyGL::Renderer::Draw(*m_VAO, *m_IndexBuffer, *m_Shader);
     }
 
     void TestSquareAnimatedColor::OnImGuiRender()

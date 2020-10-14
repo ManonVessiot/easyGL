@@ -41,7 +41,7 @@ namespace tests {
             7, 1, 0
         };
 
-        m_Renderer.Blend();
+        easyGL::Renderer::Blend();
         
         m_Shader = std::make_unique<easyGL::Shader>("shaders/MVPColor.shader");
         m_VAO = std::make_unique<easyGL::VertexArray>();
@@ -83,7 +83,7 @@ namespace tests {
     }
 
     void TestCube::OnRender(){
-        m_Renderer.Clear();
+        easyGL::Renderer::Clear();
 
         m_Shader->Bind();
 
@@ -97,7 +97,7 @@ namespace tests {
         mvp = m_Proj * model;
         m_Shader->SetUniformMat4f("u_MVP", mvp);
 
-        m_Renderer.Draw(*m_VAO, *m_IndexBuffer, *m_Shader);
+        easyGL::Renderer::Draw(*m_VAO, *m_IndexBuffer, *m_Shader);
     }
 
     void TestCube::OnImGuiRender()

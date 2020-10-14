@@ -16,7 +16,7 @@ namespace tests {
             0, 1, 2
         };
 
-        m_Renderer.Blend();
+        easyGL::Renderer::Blend();
         
         m_Shader = std::make_unique<easyGL::Shader>("shaders/BasicColor.shader");
         m_VAO = std::make_unique<easyGL::VertexArray>();
@@ -42,12 +42,12 @@ namespace tests {
 
     void TestTriangle::OnRender()
     {   
-        m_Renderer.Clear();
+        easyGL::Renderer::Clear();
 
         m_Shader->Bind();
         m_Shader->SetUniform4f("u_Color", m_Color[0], m_Color[1], m_Color[2], m_Color[3]);
 
-        m_Renderer.Draw(*m_VAO, *m_IndexBuffer, *m_Shader);
+        easyGL::Renderer::Draw(*m_VAO, *m_IndexBuffer, *m_Shader);
     }
 
     void TestTriangle::OnImGuiRender()
