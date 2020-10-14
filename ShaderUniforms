@@ -1,0 +1,9 @@
+uniform vec2 _ScreenParams;
+uniform vec3 _WorldSpaceCameraPos;
+
+uniform float _Time;
+
+uniform vec4 _AmbientLight;
+
+uniform vec4 _LightColor0;
+uniform vec4 _WorldSpaceLightPos0;

@@ -42,6 +42,15 @@ namespace easyGL {
             }
             else if ((int)type != -1)
             {
+                // add build in variables in shaders
+                if (line.find("void main()") != std::string::npos){
+                    std::string lineBI;
+                    std::ifstream streamBuildIn(m_BuildinUniform_FilePath);
+                    while (getline(streamBuildIn, lineBI)){
+                        ss[(int)type] << lineBI << "\n";
+                    }
+                    ss[(int)type] << "\n";
+                }
                 ss[(int)type] << line << "\n";
             }        
         }

@@ -32,6 +32,7 @@
 #include "tests/TestBatching.h"
 #include "tests/TestBatchingDynamic.h"
 #include "tests/TestModel.h"
+#include "tests/TestLight.h"
 
 int main(int argc, char const *argv[])
 {
@@ -81,16 +82,17 @@ int main(int argc, char const *argv[])
         tests::TestMenu* testMenu = new tests::TestMenu(currentTest);
         currentTest = testMenu;
 
-        testMenu->RegisterTest<tests::TestClearColor>("Clear Color");
-        testMenu->RegisterTest<tests::TestTriangle>("Triangle");
-        testMenu->RegisterTest<tests::TestSquare>("Square");
-        testMenu->RegisterTest<tests::TestSquareAnimatedColor>("Square Animated Color");
-        testMenu->RegisterTest<tests::TestTexture2D>("Texture 2D");
-        testMenu->RegisterTest<tests::TestMVP>("MVP");
-        testMenu->RegisterTest<tests::TestCube>("Cube");
-        testMenu->RegisterTest<tests::TestBatching>("Batching");
-        testMenu->RegisterTest<tests::TestBatchingDynamic>("Batching Dynamic");
+        testMenu->RegisterTest<tests::TestClearColor>("TestClearColor");
+        testMenu->RegisterTest<tests::TestTriangle>("TestTriangle");
+        testMenu->RegisterTest<tests::TestSquare>("TestSquare");
+        testMenu->RegisterTest<tests::TestSquareAnimatedColor>( "TestSquareAnimatedColor");
+        testMenu->RegisterTest<tests::TestTexture2D>("TestTexture2D");
+        testMenu->RegisterTest<tests::TestMVP>("TestMVP");
+        testMenu->RegisterTest<tests::TestCube>("TestCube");
+        testMenu->RegisterTest<tests::TestBatching>("TestBatching");
+        testMenu->RegisterTest<tests::TestBatchingDynamic>("TestBatchingDynamic");
         testMenu->RegisterTest<tests::TestModel>("TestModel");
+        testMenu->RegisterTest<tests::TestLight>("TestLight");
 
         // Loop until the user closes the window
         while (!glfwWindowShouldClose(window))

@@ -12,7 +12,8 @@ VENDOR_O = ./vendor/stb_image/stb_image.o ./vendor/imgui/imgui.o ./vendor/imgui/
 	./vendor/imgui/imgui_widgets.o ./vendor/imgui/imgui_draw.o ./vendor/imgui/imgui_demo.o
 
 TESTS = ./tests/Test.o ./tests/TestClearColor.o ./tests/TestTriangle.o ./tests/TestSquare.o ./tests/TestSquareAnimatedColor.o \
-	./tests/TestTexture2D.o ./tests/TestMVP.o ./tests/TestCube.o ./tests/TestBatching.o ./tests/TestBatchingDynamic.o ./tests/TestModel.o
+	./tests/TestTexture2D.o ./tests/TestMVP.o ./tests/TestCube.o ./tests/TestBatching.o ./tests/TestBatchingDynamic.o \
+	./tests/TestModel.o ./tests/TestLight.o
 
 LOCAL = main.o Renderer.o VertexBuffer.o IndexBuffer.o VertexArray.o VertexBufferLayout.o Shader.o Texture.o MyModel.o
 
@@ -50,4 +51,7 @@ exc: $(LOCAL)
 
 clean :
 	rm -f *.o exc imgui.ini &&\
+	cd ./tests/ &&\
+	make clean &&\
+	cd .. &&\
 	clear

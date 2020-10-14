@@ -16,6 +16,7 @@ namespace easyGL {
     class Shader
     {
     private:
+        std::string m_BuildinUniform_FilePath = "./ShaderUniforms";
         std::string m_FilePath;
         unsigned int m_RendererID;
         // cahcing for uniforms
