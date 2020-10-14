@@ -25,8 +25,8 @@ namespace easyGL {
             }
         };
 
-        MyModel();
-        ~MyModel();
+        MyModel() :m_Translation(0.0f, 0.0f, 0.0f), m_Rotation(1.0f, 0.0f, 0.0f, 0.0f), m_Scale(1.0f, 1.0f, 1.0f) { }
+        ~MyModel() { }
 
         void SetScale(float x = 0.0f, float y = 0.0f, float z = 0.0f
         );

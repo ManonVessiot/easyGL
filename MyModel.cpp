@@ -2,18 +2,10 @@
 
 #include "glm/gtx/euler_angles.hpp"
 #include "glm/gtx/quaternion.hpp"
+#include "glm/gtc/quaternion.hpp"
 
 namespace easyGL {
-
-    MyModel::MyModel()
-        :m_Translation(0.0f, 0.0f, 0.0f), m_Rotation(1.0f, 0.0f, 0.0f, 0.0f), m_Scale(1.0f, 1.0f, 1.0f)
-    {
-    }
-
-    MyModel::~MyModel()
-    {
-    }
-
+    
     void MyModel::SetScale(float x, float y, float z)
     {
         m_Scale = glm::vec3(x, y, z); 
@@ -34,19 +26,15 @@ namespace easyGL {
 
     void MyModel::SetRotationEuler(float x, float y, float z)
     {
-        glm::quat quatX(cos(glm::radians(x) / 2), sin(glm::radians(x) / 2), 0, 0);
-        glm::quat quatY(cos(glm::radians(y) / 2), 0, sin(glm::radians(y) / 2), 0);
-        glm::quat quatZ(cos(glm::radians(z) / 2), 0, 0, sin(glm::radians(z) / 2));
+        glm::quat rotation = glm::quat(glm::vec3(glm::radians(x), glm::radians(y), glm::radians(z)));
 
-        m_Rotation = quatX * quatY * quatZ; 
+        m_Rotation = rotation;
     }
     void MyModel::RotateEuler(float x, float y, float z)
     {
-        glm::quat quatX(cos(glm::radians(x) / 2), sin(glm::radians(x) / 2), 0, 0);
-        glm::quat quatY(cos(glm::radians(y) / 2), sin(glm::radians(y) / 2), 0, 0);
-        glm::quat quatZ(cos(glm::radians(z) / 2), sin(glm::radians(z) / 2), 0, 0);
+        glm::quat rotation = glm::quat(glm::vec3(glm::radians(x), glm::radians(y), glm::radians(z)));
 
-        m_Rotation = m_Rotation * quatX * quatY * quatZ;
+        m_Rotation = m_Rotation * rotation;
     }
 
     void MyModel::SetRotationQuaternion(float w, float x, float y, float z)

@@ -8,7 +8,7 @@
             ],
             "intelliSenseMode": "gcc-x64",
             "compilerPath": "/usr/bin/gcc",
-            "cStandard": "gnu18",
+            "cStandard": "${default}",
             "cppStandard": "gnu++14"
         }
     ],
