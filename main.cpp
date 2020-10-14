@@ -69,10 +69,7 @@ int main(int argc, char const *argv[])
     std::cout << glGetString(GL_VERSION) << std::endl;
     {   // use {} to "contains" our object and make sure, they are destroyed before glfwTerminate();
 
-        glEnable(GL_BLEND);
-        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-
-        easyGL::Renderer renderer;
+        easyGL::Renderer::Blend();
 
         // ImGui : INIT
         ImGui::CreateContext();
@@ -99,7 +96,7 @@ int main(int argc, char const *argv[])
         while (!glfwWindowShouldClose(window))
         {
             // Render here
-            renderer.Clear();
+            easyGL::Renderer::Clear();
 
             // ImGui : INIT NEW FRAME
             ImGui_ImplOpenGL3_NewFrame();

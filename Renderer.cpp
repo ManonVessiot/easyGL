@@ -16,16 +16,6 @@ namespace easyGL {
         return gotError;
     }
 
-
-
-    Renderer::Renderer()
-    {
-    }
-
-    Renderer::~Renderer()
-    {
-    }
-
     void Renderer::Blend(){
         GLCall(glEnable(GL_BLEND));
         GLCall(glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA));

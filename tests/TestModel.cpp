@@ -87,8 +87,8 @@ namespace tests {
 
     void TestModel::OnImGuiRender()
     {
-        ImGui::DragFloat3("Global translation", m_Trans, 0.1f);
-        ImGui::DragFloat3("Global rotation", m_Rot, 0.1f);
-        ImGui::DragFloat3("Global scale", m_Scale, 0.1f);
+        ImGui::DragFloat3("Translation", m_Trans, 0.1f);
+        ImGui::DragFloat3("Rotation", m_Rot, 0.1f);
+        ImGui::DragFloat3("Scale", m_Scale, 0.1f);
     }
 }
