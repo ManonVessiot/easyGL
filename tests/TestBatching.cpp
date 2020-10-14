@@ -1,5 +1,4 @@
 #include "TestBatching.h"
-#include "../Renderer.h"
 
 #include "../vendor/imgui/imgui.h"
 
@@ -28,21 +27,20 @@ namespace tests {
             6, 7, 4
         };
 
-        GLCall(glEnable(GL_BLEND));
-        GLCall(glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA));
+        m_Renderer.Blend();
         
-        m_Shader = std::make_unique<Shader>("shaders/MVPTextureBatching.shader");
-        m_VAO = std::make_unique<VertexArray>();
-        m_VB = std::make_unique<VertexBuffer>(positions, 8 * 10 * sizeof(float));
+        m_Shader = std::make_unique<easyGL::Shader>("shaders/MVPTextureBatching.shader");
+        m_VAO = std::make_unique<easyGL::VertexArray>();
+        m_VB = std::make_unique<easyGL::VertexBuffer>(positions, 8 * 10 * sizeof(float));
 
-        VertexBufferLayout layout;
+        easyGL::VertexBufferLayout layout;
         layout.Push(GL_FLOAT, 3);
         layout.Push(GL_FLOAT, 4);
         layout.Push(GL_FLOAT, 2);
         layout.Push(GL_FLOAT, 1);
 
         m_VAO->AddBuffer(*m_VB, layout);
-        m_IndexBuffer = std::make_unique<IndexBuffer>(indices, 2 * 6);
+        m_IndexBuffer = std::make_unique<easyGL::IndexBuffer>(indices, 2 * 6);
         
         m_Shader->Bind();
         int samplers[2] = {0, 1};
@@ -58,8 +56,8 @@ namespace tests {
         glm::mat4 proj = glm::ortho(-horizontalLimit, horizontalLimit, -verticalLimit, verticalLimit, -1.0f, 1.0f);
         m_Shader->SetUniformMat4f("u_MVP", proj);
 
-        m_Texture1 = std::make_unique<Texture>("textures/zelda.png");
-        m_Texture2 = std::make_unique<Texture>("textures/white.png");
+        m_Texture1 = std::make_unique<easyGL::Texture>("textures/zelda.png");
+        m_Texture2 = std::make_unique<easyGL::Texture>("textures/white.png");
     }
 
     TestBatching::~TestBatching()
@@ -71,14 +69,13 @@ namespace tests {
     }
 
     void TestBatching::OnRender()
-    {   
-        Renderer renderer;
-        renderer.Clear();
+    {
+        m_Renderer.Clear();
 
         m_Texture1->Bind(0);
         m_Texture2->Bind(1);
         m_Shader->Bind();
-        renderer.Draw(*m_VAO, *m_IndexBuffer, *m_Shader);
+        m_Renderer.Draw(*m_VAO, *m_IndexBuffer, *m_Shader);
     }
 
     void TestBatching::OnImGuiRender()

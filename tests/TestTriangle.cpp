@@ -2,8 +2,6 @@
 
 #include "../vendor/imgui/imgui.h"
 
-#include "../Renderer.h"
-
 namespace tests {
 
     TestTriangle::TestTriangle()
@@ -18,18 +16,17 @@ namespace tests {
             0, 1, 2
         };
 
-        GLCall(glEnable(GL_BLEND));
-        GLCall(glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA));
+        m_Renderer.Blend();
         
-        m_Shader = std::make_unique<Shader>("shaders/BasicColor.shader");
-        m_VAO = std::make_unique<VertexArray>();
-        m_VB = std::make_unique<VertexBuffer>(positions, 3 * 2 * sizeof(float));
+        m_Shader = std::make_unique<easyGL::Shader>("shaders/BasicColor.shader");
+        m_VAO = std::make_unique<easyGL::VertexArray>();
+        m_VB = std::make_unique<easyGL::VertexBuffer>(positions, 3 * 2 * sizeof(float));
 
-        VertexBufferLayout layout;
+        easyGL::VertexBufferLayout layout;
         layout.Push(GL_FLOAT, 2);
 
         m_VAO->AddBuffer(*m_VB, layout);
-        m_IndexBuffer = std::make_unique<IndexBuffer>(indices, 3);
+        m_IndexBuffer = std::make_unique<easyGL::IndexBuffer>(indices, 3);
         
         m_Shader->Bind();
         m_Shader->SetUniform4f("u_Color", 1.0f, 1.0f, 1.0f, 1.0f);
@@ -45,13 +42,12 @@ namespace tests {
 
     void TestTriangle::OnRender()
     {   
-        Renderer renderer;
-        renderer.Clear();
+        m_Renderer.Clear();
 
         m_Shader->Bind();
         m_Shader->SetUniform4f("u_Color", m_Color[0], m_Color[1], m_Color[2], m_Color[3]);
 
-        renderer.Draw(*m_VAO, *m_IndexBuffer, *m_Shader);
+        m_Renderer.Draw(*m_VAO, *m_IndexBuffer, *m_Shader);
     }
 
     void TestTriangle::OnImGuiRender()

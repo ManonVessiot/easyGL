@@ -4,10 +4,14 @@
 #include <vector>
 #include <iostream>
 
+#include "../Renderer.h"
+
 namespace tests
 {
     class Test
     {
+        protected:
+            easyGL::Renderer m_Renderer;
         public:
             Test(){}
             virtual ~Test(){}

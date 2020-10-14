@@ -11,14 +11,13 @@ namespace tests {
          m_Rot{0.0f, 0.0f, 0.0f},
          m_Scale{1.0f, 1.0f, 1.0f}
     {
-        GLCall(glEnable(GL_BLEND));
-        GLCall(glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA));
+        m_Renderer.Blend();
         
-        m_Shader = std::make_unique<Shader>("shaders/Model.shader");
-        m_VAO = std::make_unique<VertexArray>();
-        m_VB = std::make_unique<VertexBuffer>(nullptr, sizeof(MyModel::Vertex) * 300, GL_DYNAMIC_DRAW); // allocate memory for 300 vertex
+        m_Shader = std::make_unique<easyGL::Shader>("shaders/Model.shader");
+        m_VAO = std::make_unique<easyGL::VertexArray>();
+        m_VB = std::make_unique<easyGL::VertexBuffer>(nullptr, sizeof(easyGL::MyModel::Vertex) * 300, GL_DYNAMIC_DRAW); // allocate memory for 300 vertex
 
-        VertexBufferLayout layout;
+        easyGL::VertexBufferLayout layout;
         layout.Push(GL_FLOAT, 3);
         layout.Push(GL_FLOAT, 3);
         layout.Push(GL_FLOAT, 2);
@@ -26,7 +25,7 @@ namespace tests {
 
         m_VAO->AddBuffer(*m_VB, layout);
 
-        m_IndexBuffer = std::make_unique<IndexBuffer>(nullptr, 100 * 3, GL_DYNAMIC_DRAW); // allocate memory for 100 triangles
+        m_IndexBuffer = std::make_unique<easyGL::IndexBuffer>(nullptr, 100 * 3, GL_DYNAMIC_DRAW); // allocate memory for 100 triangles
         
         m_Shader->Bind();
         int samplers[2] = {0, 1};
@@ -42,8 +41,8 @@ namespace tests {
         glm::mat4 proj = glm::ortho(-horizontalLimit, horizontalLimit, -verticalLimit, verticalLimit, -1.0f, 1.0f);
         m_Shader->SetUniformMat4f("u_MVP", proj);
 
-        m_Texture1 = std::make_unique<Texture>("textures/zelda.png");
-        m_Texture2 = std::make_unique<Texture>("textures/white.png");
+        m_Texture1 = std::make_unique<easyGL::Texture>("textures/zelda.png");
+        m_Texture2 = std::make_unique<easyGL::Texture>("textures/white.png");
 
 
         m_Model.AddVertex(glm::vec3(-0.5f, -0.5f, 0.0f), glm::vec3(0.0f, 0.0f, 1.0f), glm::vec2(0.0f, 0.0f), 0.0f);
@@ -65,10 +64,10 @@ namespace tests {
         m_Model.SetRotationEuler(m_Rot[0], m_Rot[1], m_Rot[2]);
         m_Model.SetScale(m_Scale[0], m_Scale[1], m_Scale[2]);
         
-        MyModel::Vertex* vertices = m_Model.GetVertexData();
+        easyGL::MyModel::Vertex* vertices = m_Model.GetVertexData();
 
         m_VB->Bind();
-        m_VB->WriteData(0, m_Model.GetVertexCount() * sizeof(MyModel::Vertex) * sizeof(float), vertices); // write vertices in VertexBuffer
+        m_VB->WriteData(0, m_Model.GetVertexCount() * sizeof(easyGL::MyModel::Vertex) * sizeof(float), vertices); // write vertices in VertexBuffer
         
         unsigned int * indices = m_Model.GetIndicesData();
 
@@ -77,14 +76,13 @@ namespace tests {
     }
 
     void TestModel::OnRender()
-    {   
-        Renderer renderer;
-        renderer.Clear();
+    {
+        m_Renderer.Clear();
 
         m_Texture1->Bind(0);
         m_Texture2->Bind(1);
         m_Shader->Bind();
-        renderer.Draw(*m_VAO, *m_IndexBuffer, *m_Shader);
+        m_Renderer.Draw(*m_VAO, *m_IndexBuffer, *m_Shader);
     }
 
     void TestModel::OnImGuiRender()

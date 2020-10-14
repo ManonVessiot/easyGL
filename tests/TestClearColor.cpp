@@ -1,5 +1,5 @@
 #include "TestClearColor.h"
-#include "../Renderer.h"
+
 #include "../vendor/imgui/imgui.h"
 
 namespace tests {
@@ -22,8 +22,7 @@ namespace tests {
     }
 
     void TestClearColor::OnRender(){
-        GLCall(glClearColor(m_ClearColor[0], m_ClearColor[1], m_ClearColor[2], m_ClearColor[3]));
-        GLCall(glClear(GL_COLOR_BUFFER_BIT));
+        m_Renderer.Clear(m_ClearColor[0], m_ClearColor[1], m_ClearColor[2], m_ClearColor[3]);
     }
 
     void TestClearColor::OnImGuiRender(){

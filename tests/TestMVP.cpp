@@ -28,19 +28,18 @@ namespace tests {
             2, 3, 0
         };
 
-        GLCall(glEnable(GL_BLEND));
-        GLCall(glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA));
+        m_Renderer.Blend();
         
-        m_Shader = std::make_unique<Shader>("shaders/MVPTexture.shader");
-        m_VAO = std::make_unique<VertexArray>();
-        m_VB = std::make_unique<VertexBuffer>(positions, 4 * 4 * sizeof(float));
+        m_Shader = std::make_unique<easyGL::Shader>("shaders/MVPTexture.shader");
+        m_VAO = std::make_unique<easyGL::VertexArray>();
+        m_VB = std::make_unique<easyGL::VertexBuffer>(positions, 4 * 4 * sizeof(float));
 
-        VertexBufferLayout layout;
+        easyGL::VertexBufferLayout layout;
         layout.Push(GL_FLOAT, 2);
         layout.Push(GL_FLOAT, 2);
 
         m_VAO->AddBuffer(*m_VB, layout);
-        m_IndexBuffer = std::make_unique<IndexBuffer>(indices, 6);
+        m_IndexBuffer = std::make_unique<easyGL::IndexBuffer>(indices, 6);
         
         m_Shader->Bind();
 
@@ -55,7 +54,7 @@ namespace tests {
         float horizontalLimit = (width / miniSize) * borderLimit;
         m_Proj = glm::ortho(-horizontalLimit, horizontalLimit, -verticalLimit, verticalLimit, -1.0f, 1.0f);
 
-        m_Texture = std::make_unique<Texture>("textures/zelda.png");
+        m_Texture = std::make_unique<easyGL::Texture>("textures/zelda.png");
         m_Shader->SetUniform1i("u_Texture", 0);
     }
 
@@ -69,8 +68,7 @@ namespace tests {
     }
 
     void TestMVP::OnRender(){
-        Renderer renderer;
-        renderer.Clear();
+        m_Renderer.Clear();
 
         m_Texture->Bind();
         m_Shader->Bind();
@@ -103,13 +101,13 @@ namespace tests {
         m_Shader->SetUniform4f("u_Color", m_R, m_G, m_B, 1.0f);
         mvp = m_Proj * view * model1;
         m_Shader->SetUniformMat4f("u_MVP", mvp);
-        renderer.Draw(*m_VAO, *m_IndexBuffer, *m_Shader);
+        m_Renderer.Draw(*m_VAO, *m_IndexBuffer, *m_Shader);
             
         // second object
         m_Shader->SetUniform4f("u_Color", 1, 1, 1, 1.0f);
         mvp = m_Proj * view * model2;
         m_Shader->SetUniformMat4f("u_MVP", mvp);            
-        renderer.Draw(*m_VAO, *m_IndexBuffer, *m_Shader);
+        m_Renderer.Draw(*m_VAO, *m_IndexBuffer, *m_Shader);
     }
 
     void TestMVP::OnImGuiRender(){

@@ -1,5 +1,4 @@
 #include "TestBatchingDynamic.h"
-#include "../Renderer.h"
 
 #include "../vendor/imgui/imgui.h"
 
@@ -7,7 +6,6 @@
 #include <glm/gtc/matrix_transform.hpp>
 
 namespace tests {
-
 
     std::array<TVertex, 4> TestBatchingDynamic::CreateQuad(glm::vec3 cornerPos, float size, glm::vec4 color, float texID){
         TVertex v0;
@@ -34,7 +32,6 @@ namespace tests {
         v3.TexCoords = glm::vec2(0, 1);
         v3.TexID = texID;
 
-
         return {v0, v1, v2, v3};
     }
 
@@ -47,14 +44,13 @@ namespace tests {
     TestBatchingDynamic::TestBatchingDynamic()
         :m_PosQuad1{-1.5f, -0.5f, 0.0f}
     {
-        GLCall(glEnable(GL_BLEND));
-        GLCall(glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA));
+        m_Renderer.Blend();
         
-        m_Shader = std::make_unique<Shader>("shaders/MVPTextureBatching.shader");
-        m_VAO = std::make_unique<VertexArray>();
-        m_VB = std::make_unique<VertexBuffer>(nullptr, sizeof(TVertex) * 1000, GL_DYNAMIC_DRAW); // allocate memory for 1000 vertex
+        m_Shader = std::make_unique<easyGL::Shader>("shaders/MVPTextureBatching.shader");
+        m_VAO = std::make_unique<easyGL::VertexArray>();
+        m_VB = std::make_unique<easyGL::VertexBuffer>(nullptr, sizeof(TVertex) * 1000, GL_DYNAMIC_DRAW); // allocate memory for 1000 vertex
 
-        VertexBufferLayout layout;
+        easyGL::VertexBufferLayout layout;
         layout.Push(GL_FLOAT, 3);
         layout.Push(GL_FLOAT, 4);
         layout.Push(GL_FLOAT, 2);
@@ -62,7 +58,7 @@ namespace tests {
 
         m_VAO->AddBuffer(*m_VB, layout);
 
-        m_IndexBuffer = std::make_unique<IndexBuffer>(nullptr, 5 * 6, GL_DYNAMIC_DRAW); // allocate memory for 5 quads
+        m_IndexBuffer = std::make_unique<easyGL::IndexBuffer>(nullptr, 5 * 6, GL_DYNAMIC_DRAW); // allocate memory for 5 quads
         
         m_Shader->Bind();
         int samplers[2] = {0, 1};
@@ -78,8 +74,8 @@ namespace tests {
         glm::mat4 proj = glm::ortho(-horizontalLimit, horizontalLimit, -verticalLimit, verticalLimit, -1.0f, 1.0f);
         m_Shader->SetUniformMat4f("u_MVP", proj);
 
-        m_Texture1 = std::make_unique<Texture>("textures/zelda.png");
-        m_Texture2 = std::make_unique<Texture>("textures/white.png");
+        m_Texture1 = std::make_unique<easyGL::Texture>("textures/zelda.png");
+        m_Texture2 = std::make_unique<easyGL::Texture>("textures/white.png");
     }
 
     TestBatchingDynamic::~TestBatchingDynamic()
@@ -123,14 +119,13 @@ namespace tests {
     }
 
     void TestBatchingDynamic::OnRender()
-    {   
-        Renderer renderer;
-        renderer.Clear();
+    {
+        m_Renderer.Clear();
 
         m_Texture1->Bind(0);
         m_Texture2->Bind(1);
         m_Shader->Bind();
-        renderer.Draw(*m_VAO, *m_IndexBuffer, *m_Shader);
+        m_Renderer.Draw(*m_VAO, *m_IndexBuffer, *m_Shader);
     }
 
     void TestBatchingDynamic::OnImGuiRender()

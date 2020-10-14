@@ -41,18 +41,17 @@ namespace tests {
             7, 1, 0
         };
 
-        GLCall(glEnable(GL_BLEND));
-        GLCall(glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA));
+        m_Renderer.Blend();
         
-        m_Shader = std::make_unique<Shader>("shaders/MVPColor.shader");
-        m_VAO = std::make_unique<VertexArray>();
-        m_VB = std::make_unique<VertexBuffer>(positions, 8 * 3 * sizeof(float));
+        m_Shader = std::make_unique<easyGL::Shader>("shaders/MVPColor.shader");
+        m_VAO = std::make_unique<easyGL::VertexArray>();
+        m_VB = std::make_unique<easyGL::VertexBuffer>(positions, 8 * 3 * sizeof(float));
 
-        VertexBufferLayout layout;
+        easyGL::VertexBufferLayout layout;
         layout.Push(GL_FLOAT, 3);
 
         m_VAO->AddBuffer(*m_VB, layout);
-        m_IndexBuffer = std::make_unique<IndexBuffer>(indices, 6 * 6);
+        m_IndexBuffer = std::make_unique<easyGL::IndexBuffer>(indices, 6 * 6);
         
         m_Shader->Bind();
 
@@ -84,8 +83,7 @@ namespace tests {
     }
 
     void TestCube::OnRender(){
-        Renderer renderer;
-        renderer.Clear();
+        m_Renderer.Clear();
 
         m_Shader->Bind();
 
@@ -99,7 +97,7 @@ namespace tests {
         mvp = m_Proj * model;
         m_Shader->SetUniformMat4f("u_MVP", mvp);
 
-        renderer.Draw(*m_VAO, *m_IndexBuffer, *m_Shader);
+        m_Renderer.Draw(*m_VAO, *m_IndexBuffer, *m_Shader);
     }
 
     void TestCube::OnImGuiRender()

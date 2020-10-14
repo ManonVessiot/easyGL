@@ -21,25 +21,24 @@ namespace tests {
             2, 3, 0
         };
 
-        GLCall(glEnable(GL_BLEND));
-        GLCall(glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA));
+        m_Renderer.Blend();
         
-        m_Shader = std::make_unique<Shader>("shaders/MVPTexture.shader");
-        m_VAO = std::make_unique<VertexArray>();
-        m_VB = std::make_unique<VertexBuffer>(positions, 4 * 4 * sizeof(float));
+        m_Shader = std::make_unique<easyGL::Shader>("shaders/MVPTexture.shader");
+        m_VAO = std::make_unique<easyGL::VertexArray>();
+        m_VB = std::make_unique<easyGL::VertexBuffer>(positions, 4 * 4 * sizeof(float));
 
-        VertexBufferLayout layout;
+        easyGL::VertexBufferLayout layout;
         layout.Push(GL_FLOAT, 2);
         layout.Push(GL_FLOAT, 2);
 
         m_VAO->AddBuffer(*m_VB, layout);
-        m_IndexBuffer = std::make_unique<IndexBuffer>(indices, 6);
+        m_IndexBuffer = std::make_unique<easyGL::IndexBuffer>(indices, 6);
         
         m_Shader->Bind();
 
         m_Shader->SetUniform4f("u_Color", 0.2f, 0.3f, 0.8f, 1.0f);
 
-        m_Texture = std::make_unique<Texture>("textures/zelda.png");
+        m_Texture = std::make_unique<easyGL::Texture>("textures/zelda.png");
         m_Shader->SetUniform1i("u_Texture", 0);
     
         int height = 540;
@@ -62,8 +61,7 @@ namespace tests {
     }
 
     void TestTexture2D::OnRender(){
-        Renderer renderer;
-        renderer.Clear();
+        m_Renderer.Clear();
 
         m_Texture->Bind();
         m_Shader->Bind();        
@@ -72,7 +70,7 @@ namespace tests {
 
         // first object
         m_Shader->SetUniform4f("u_Color", m_R, m_G, m_B, 1.0f);
-        renderer.Draw(*m_VAO, *m_IndexBuffer, *m_Shader);
+        m_Renderer.Draw(*m_VAO, *m_IndexBuffer, *m_Shader);
     }
 
     void TestTexture2D::OnImGuiRender()
