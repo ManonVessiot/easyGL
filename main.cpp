@@ -32,7 +32,6 @@
 #include "tests/TestBatching.h"
 #include "tests/TestBatchingDynamic.h"
 #include "tests/TestModel.h"
-#include "tests/TestLight.h"
 
 int main(int argc, char const *argv[])
 {
@@ -92,7 +91,6 @@ int main(int argc, char const *argv[])
         testMenu->RegisterTest<tests::TestBatching>("TestBatching");
         testMenu->RegisterTest<tests::TestBatchingDynamic>("TestBatchingDynamic");
         testMenu->RegisterTest<tests::TestModel>("TestModel");
-        testMenu->RegisterTest<tests::TestLight>("TestLight");
 
         // Loop until the user closes the window
         while (!glfwWindowShouldClose(window))

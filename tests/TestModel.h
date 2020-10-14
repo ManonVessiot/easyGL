@@ -15,7 +15,7 @@ namespace tests
     class TestModel : public Test
     {
         private:
-            easyGL::MyModel m_Model;
+            MyModel m_Model;
             float m_Trans[3];
             float m_Rot[3];
             float m_Scale[3];

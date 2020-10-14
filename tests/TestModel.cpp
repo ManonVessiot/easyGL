@@ -15,7 +15,7 @@ namespace tests {
         
         m_Shader = std::make_unique<easyGL::Shader>("shaders/Model.shader");
         m_VAO = std::make_unique<easyGL::VertexArray>();
-        m_VB = std::make_unique<easyGL::VertexBuffer>(nullptr, sizeof(easyGL::MyModel::Vertex) * 300, GL_DYNAMIC_DRAW); // allocate memory for 300 vertex
+        m_VB = std::make_unique<easyGL::VertexBuffer>(nullptr, sizeof(MyModel::Vertex) * 300, GL_DYNAMIC_DRAW); // allocate memory for 300 vertex
 
         easyGL::VertexBufferLayout layout;
         layout.Push(GL_FLOAT, 3);
@@ -64,10 +64,10 @@ namespace tests {
         m_Model.SetRotationEuler(m_Rot[0], m_Rot[1], m_Rot[2]);
         m_Model.SetScale(m_Scale[0], m_Scale[1], m_Scale[2]);
         
-        easyGL::MyModel::Vertex* vertices = m_Model.GetVertexData();
+        MyModel::Vertex* vertices = m_Model.GetVertexData();
 
         m_VB->Bind();
-        m_VB->WriteData(0, m_Model.GetVertexCount() * sizeof(easyGL::MyModel::Vertex) * sizeof(float), vertices); // write vertices in VertexBuffer
+        m_VB->WriteData(0, m_Model.GetVertexCount() * sizeof(MyModel::Vertex) * sizeof(float), vertices); // write vertices in VertexBuffer
         
         unsigned int * indices = m_Model.GetIndicesData();
 
