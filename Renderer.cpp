@@ -16,15 +16,32 @@ namespace easyGL {
         return gotError;
     }
 
-    void Renderer::Blend(){
-        GLCall(glEnable(GL_BLEND));
-        GLCall(glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA));
+    void Renderer::Blend(bool enable){
+        if (enable){
+            GLCall(glEnable(GL_BLEND));
+            GLCall(glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA));
+        }
+        else
+        {
+            GLCall(glDisable(GL_BLEND));
+        }
+        
+    }
+
+    void Renderer::Depth(bool enable){
+        if (enable){
+            glEnable(GL_DEPTH_TEST);
+        }
+        else
+        {
+            GLCall(glDisable(GL_DEPTH_TEST));
+        }
     }
 
     void Renderer::Clear(float r, float g, float b, float a )
     {
         GLCall(glClearColor(r, g, b, a));
-        GLCall(glClear(GL_COLOR_BUFFER_BIT));
+        GLCall(glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT));
     }
 
     void Renderer::Draw(const VertexArray& va, const IndexBuffer& ib, const Shader& shader)

@@ -9,6 +9,7 @@ namespace easyGL {
     }
 
     VertexArray::~VertexArray(){
+		GLCall(glBindVertexArray(0));
         GLCall(glDeleteVertexArrays(1, &m_RendererID));
     }
 

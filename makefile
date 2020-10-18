@@ -8,19 +8,18 @@ LIBS = $(OPENGL_LIBS)
 
 INC = -I /usr/include/
 
-VENDOR_O = ./vendor/stb_image/stb_image.o ./vendor/imgui/imgui.o ./vendor/imgui/imgui_impl_glfw.o ./vendor/imgui/imgui_impl_opengl3.o \
-	./vendor/imgui/imgui_widgets.o ./vendor/imgui/imgui_draw.o ./vendor/imgui/imgui_demo.o
+VENDOR_O = ../vendor/stb_image/stb_image.o ../vendor/imgui/imgui.o ../vendor/imgui/imgui_impl_glfw.o ../vendor/imgui/imgui_impl_opengl3.o \
+	../vendor/imgui/imgui_widgets.o ../vendor/imgui/imgui_draw.o ../vendor/imgui/imgui_demo.o
 
-TESTS = ./tests/Test.o ./tests/TestClearColor.o ./tests/TestTriangle.o ./tests/TestSquare.o ./tests/TestSquareAnimatedColor.o \
-	./tests/TestTexture2D.o ./tests/TestMVP.o ./tests/TestCube.o ./tests/TestBatching.o ./tests/TestBatchingDynamic.o \
-	./tests/TestModel.o
-
-LOCAL = main.o Renderer.o VertexBuffer.o IndexBuffer.o VertexArray.o VertexBufferLayout.o Shader.o Texture.o MyModel.o
+LOCAL = Renderer.o VertexBuffer.o IndexBuffer.o VertexArray.o VertexBufferLayout.o Shader.o Texture.o TextureManager.o ShaderManager.o
 
 all: $(LOCAL)
 
-MyModel.o: MyModel.cpp MyModel.h
-	$(CXX) -c MyModel.cpp $(INC)
+ShaderManager.o: ShaderManager.cpp ShaderManager.h
+	$(CXX) -c ShaderManager.cpp $(INC)
+
+TextureManager.o: TextureManager.cpp TextureManager.h
+	$(CXX) -c TextureManager.cpp $(INC)
 
 Texture.o: Texture.cpp Texture.h Renderer.h
 	$(CXX) -c Texture.cpp $(INC)
@@ -43,15 +42,5 @@ VertexBuffer.o: VertexBuffer.cpp VertexBuffer.h Renderer.h
 Renderer.o: Renderer.cpp Renderer.h VertexArray.h IndexBuffer.h Shader.h
 	$(CXX) -c Renderer.cpp $(INC)
 
-main.o: main.cpp Renderer.h VertexBuffer.h IndexBuffer.h VertexArray.h Shader.h Texture.h
-	$(CXX) -c main.cpp $(INC)
-
-exc: $(LOCAL)
-	$(CXX) -o exc $(LOCAL) $(TESTS) $(VENDOR_O) $(LIBS)
-
 clean :
-	rm -f *.o exc imgui.ini &&\
-	cd ./tests/ &&\
-	make clean &&\
-	cd .. &&\
-	clear
+	rm -f *.o

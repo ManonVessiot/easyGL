@@ -7,22 +7,15 @@
 #include <glm/glm.hpp>
 
 namespace easyGL {
-    struct ShaderProgramSource
-    {
-        std::string VertexSource;
-        std::string FragmentSource;
-    };
 
     class Shader
     {
     private:
-        std::string m_BuildinUniform_FilePath = "./ShaderUniforms";
-        std::string m_FilePath;
         unsigned int m_RendererID;
-        // cahcing for uniforms
+        // caching for uniforms
         std::unordered_map<std::string, int> m_UniformLocationCache;
     public:
-        Shader(const std::string& filepath);
+        Shader(const std::string& verterShader, const std::string& fragmentShader);
         ~Shader();
 
         void Bind() const;
@@ -38,12 +31,12 @@ namespace easyGL {
 
         void SetUniformMat4f(const std::string& name, const glm::mat4 matrix);
         void SetUniform1iv(const std::string& name, int count, const int* v0);
+        void SetUniform1fv(const std::string& name, int count, const float* v0);
         
 
     private:
-        ShaderProgramSource ParseShader(const std::string& filepath);
-        unsigned int CompileShader(unsigned int type, const std::string& source);
-        unsigned int CreateShader(const std::string& verterShader, const std::string& fragmentShader);
+        unsigned int CompileShader(unsigned int type, const std::string& source) const;
+        unsigned int CreateShader(const std::string& verterShader, const std::string& fragmentShader) const;
         int GetUniformLocation(const std::string& name);
     };
 }

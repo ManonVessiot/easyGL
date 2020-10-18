@@ -13,6 +13,7 @@ namespace easyGL {
 
     VertexBuffer::~VertexBuffer()
     {
+		GLCall(glBindBuffer(GL_ARRAY_BUFFER, 0));
         GLCall(glDeleteBuffers(1, &m_RendererID));
     }
 
